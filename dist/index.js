@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const questions_json_1 = __importDefault(require("../data/questions.json"));
+const sections_json_1 = __importDefault(require("../data/sections.json"));
 const app = (0, express_1.default)();
 const port = 3001;
 // TODO change this behaviour later. This is not recommended for production environments, as it may pose
@@ -18,9 +18,9 @@ app.use((_req, res, next) => {
 app.get("/", (req, res) => {
     res.send("Hello World!!");
 });
-app.get("/quizQuestions", (req, res) => {
-    console.log("calling /quizQuestions");
-    res.json(questions_json_1.default);
+app.get("/quizSections", (req, res) => {
+    console.log("calling /quizSections");
+    res.json(sections_json_1.default);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

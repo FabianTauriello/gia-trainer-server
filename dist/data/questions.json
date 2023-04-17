@@ -1,130 +1,114 @@
 [
-  {
-    "title": "Reasoning",
-    "number": 1,
-    "questions": [
-      {
+    {
+        "section": "Reasoning",
         "statement": "Rebecca is louder than Kate",
         "question": "Who is less loud?",
         "choices": ["Rebecca", "Kate"],
         "correctChoiceIndex": 1
-      },
-      {
+    },
+    {
+        "section": "Reasoning",
         "statement": "Tracy has more money than Stephen",
         "question": "Who is poorer?",
         "choices": ["Tracy", "Stephen"],
         "correctChoiceIndex": 1
-      },
-      {
+    },
+    {
+        "section": "Reasoning",
         "statement": "Stewart is stronger than Joe",
         "question": "Who is stronger?",
         "choices": ["Stewart", "Joe"],
         "correctChoiceIndex": 0
-      },
-      {
+    },
+    {
+        "section": "Reasoning",
         "statement": "Joshua is not as flexible as Chris",
         "question": "Who is less adaptable?",
         "choices": ["Joshua", "Chris"],
         "correctChoiceIndex": 0
-      },
-      {
+    },
+    {
+        "section": "Reasoning",
         "statement": "Bob is not as happy as Paul",
         "question": "Who is sadder?",
         "choices": ["Bob", "Paul"],
         "correctChoiceIndex": 0
-      }
-    ]
-  },
-  {
-    "title": "Perceptual Speed",
-    "number": 2,
-    "questions": [
-      {
+    },
+    {
+        "section": "Perceptual Speed",
         "pairs": [
-          ["f", "F"],
-          ["d", "D"],
-          ["m", "R"],
-          ["h", "H"]
+            ["f", "F"],
+            ["d", "D"],
+            ["m", "R"],
+            ["h", "H"]
         ],
         "choices": ["0", "1", "2", "3", "4"],
         "correctChoiceIndex": 3
-      }
-    ]
-  },
-  {
-    "title": "Number Speed and Accuracy",
-    "number": 3,
-    "questions": [
-      {
+    },
+    {
+        "section": "Number Speed and Accuracy",
         "choices": ["4", "2", "8"],
         "correctChoiceIndex": 2
-      },
-      {
+    },
+    {
+        "section": "Number Speed and Accuracy",
         "choices": ["12", "3", "5"],
         "correctChoiceIndex": 0
-      },
-      {
+    },
+    {
+        "section": "Number Speed and Accuracy",
         "choices": ["10", "7", "5"],
         "correctChoiceIndex": 0
-      },
-      {
+    },
+    {
+        "section": "Number Speed and Accuracy",
         "choices": ["11", "13", "16"],
         "correctChoiceIndex": 2
-      }
-    ]
-  },
-  {
-    "title": "Word Meaning",
-    "number": 4,
-    "questions": [
-      {
+    },
+    {
+        "section": "Word Meaning",
         "choices": ["halt", "cold", "stop"],
         "correctChoiceIndex": 1
-      },
-      {
+    },
+    {
+        "section": "Word Meaning",
         "choices": ["up", "down", "street"],
         "correctChoiceIndex": 2
-      },
-      {
+    },
+    {
+        "section": "Word Meaning",
         "choices": ["below", "under", "letter"],
         "correctChoiceIndex": 2
-      }
-    ]
-  },
-  {
-    "title": "Spatial Visualisation",
-    "number": 5,
-    "questions": [
-      {
+    },
+    {
+        "section": "Spatial Visualisation",
         "letters": [
-          [
-            {
-              "char": "R",
-              "rot": 180,
-              "flip": false
-            },
-            {
-              "char": "R",
-              "rot": -90,
-              "flip": true
-            }
-          ],
-          [
-            {
-              "char": "R",
-              "rot": 90,
-              "flip": false
-            },
-            {
-              "char": "R",
-              "rot": -90,
-              "flip": false
-            }
-          ]
+            [
+                {
+                    "char": "R",
+                    "rot": 180,
+                    "flip": false
+                },
+                {
+                    "char": "R",
+                    "rot": -90,
+                    "flip": true
+                }
+            ],
+            [
+                {
+                    "char": "R",
+                    "rot": 90,
+                    "flip": false
+                },
+                {
+                    "char": "R",
+                    "rot": -90,
+                    "flip": false
+                }
+            ]
         ],
         "choices": ["0", "1", "2"],
         "correctChoiceIndex": 1
-      }
-    ]
-  }
+    }
 ]

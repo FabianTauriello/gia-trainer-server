@@ -1,6 +1,5 @@
 import express from "express";
-import sectionData from "../data/sections.json";
-import testData from "../data/testData.json";
+import questionData from "../data/questions.json";
 
 const app = express();
 const port = 3001;
@@ -18,9 +17,9 @@ app.get("/", (req, res) => {
   res.send("Hello World!!");
 });
 
-app.get("/quizSections", (req, res) => {
-  console.log("calling /quizSections");
-  res.json(sectionData);
+app.get("/quizQuestions", (req, res) => {
+  console.log("calling /quizQuestions");
+  res.json(questionData);
 });
 
 app.listen(port, () => {
