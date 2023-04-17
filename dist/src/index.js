@@ -19,8 +19,8 @@ app.get("/", (req, res) => {
     res.send("Hello World!!");
 });
 app.get("/quizQuestions", (req, res) => {
-    console.log("calling /quizQuestions");
-    res.json(questions_json_1.default);
+    const questions = questions_json_1.default.map((q, i) => (Object.assign({ number: i + 1 }, q)));
+    res.json(questions);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

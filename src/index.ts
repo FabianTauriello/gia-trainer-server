@@ -1,5 +1,6 @@
 import express from "express";
 import questionData from "../data/questions.json";
+import { Question } from "./domain/types";
 
 const app = express();
 const port = 3001;
@@ -18,8 +19,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/quizQuestions", (req, res) => {
-  console.log("calling /quizQuestions");
-  res.json(questionData);
+  const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
+  res.json(questions);
 });
 
 app.listen(port, () => {
