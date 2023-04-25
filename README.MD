@@ -1,6 +1,6 @@
 # Brief
 
-API for gia-practice using Express.js
+API for gia-trainer using Express.js
 
 ## Typescript and general project setup:
 

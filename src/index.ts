@@ -23,6 +23,7 @@ app.get("/quizQuestions", (req, res) => {
   // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
   // res.json(questions);
 
+  // TODO kinda ugly
   const numberedQuestions: Question[] = questionData.map((q, i) => ({ ...q, number: i }));
   const sortedQuestions = sortQuestionsBySection(numberedQuestions);
   const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
