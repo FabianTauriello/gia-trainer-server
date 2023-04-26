@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortQuestionsBySection = void 0;
+exports.sortQuestionsByCategory = void 0;
 const Constants_1 = require("./Constants");
-// TODO consider a better implementation here because SECTION_SORT_ORDER is of type 'any'
-function sortQuestionsBySection(questions) {
+// TODO consider a better implementation here because CATEGORY_SORT_ORDER is of type 'any'
+function sortQuestionsByCategory(questions) {
     const copy = [...questions];
     copy.sort((a, b) => {
-        const sortResult = (Constants_1.SECTION_SORT_ORDER[a.section] || Constants_1.SECTION_SORT_ORDER.default) -
-            (Constants_1.SECTION_SORT_ORDER[b.section] || Constants_1.SECTION_SORT_ORDER.default) || a.section.localeCompare(b.section);
+        const sortResult = (Constants_1.CATEGORY_SORT_ORDER[a.category] || Constants_1.CATEGORY_SORT_ORDER.default) -
+            (Constants_1.CATEGORY_SORT_ORDER[b.category] || Constants_1.CATEGORY_SORT_ORDER.default) || a.category.localeCompare(b.category);
         if (sortResult === 0) {
             return 1;
         }
@@ -17,4 +17,4 @@ function sortQuestionsBySection(questions) {
     });
     return copy;
 }
-exports.sortQuestionsBySection = sortQuestionsBySection;
+exports.sortQuestionsByCategory = sortQuestionsByCategory;

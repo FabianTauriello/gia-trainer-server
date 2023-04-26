@@ -24,7 +24,7 @@ app.get("/quizQuestions", (req, res) => {
     // res.json(questions);
     // TODO kinda ugly
     const numberedQuestions = questions_json_1.default.map((q, i) => (Object.assign(Object.assign({}, q), { number: i })));
-    const sortedQuestions = (0, Utils_1.sortQuestionsBySection)(numberedQuestions);
+    const sortedQuestions = (0, Utils_1.sortQuestionsByCategory)(numberedQuestions);
     const finalQuestions = sortedQuestions.map((q, i) => (Object.assign(Object.assign({}, q), { number: i + 1 })));
     res.json(finalQuestions);
 });

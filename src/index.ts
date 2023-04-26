@@ -1,7 +1,7 @@
 import express from "express";
 import questionData from "../data/questions.json";
 import { Question } from "./domain/types";
-import { sortQuestionsBySection } from "./utils/Utils";
+import { sortQuestionsByCategory } from "./utils/Utils";
 
 const app = express();
 const port = 3001;
@@ -25,7 +25,7 @@ app.get("/quizQuestions", (req, res) => {
 
   // TODO kinda ugly
   const numberedQuestions: Question[] = questionData.map((q, i) => ({ ...q, number: i }));
-  const sortedQuestions = sortQuestionsBySection(numberedQuestions);
+  const sortedQuestions = sortQuestionsByCategory(numberedQuestions);
   const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
 
   res.json(finalQuestions);

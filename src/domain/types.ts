@@ -1,6 +1,6 @@
 export type Question = {
   number: number;
-  section: string;
+  category: string;
   pairs?: string[][];
   letters?: Letter[][];
   statement?: string;
