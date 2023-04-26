@@ -7,6 +7,7 @@ export type Question = {
   question?: string;
   choices: string[];
   correctChoiceIndex: number;
+  selectedChoiceIndex: number;
 };
 
 type Letter = {

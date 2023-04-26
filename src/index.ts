@@ -1,6 +1,6 @@
 import express from "express";
 import questionData from "../data/questions.json";
-import { Question } from "./domain/types";
+import { Question } from "./domain/Types";
 import { sortQuestionsByCategory } from "./utils/Utils";
 
 const app = express();

@@ -4,35 +4,40 @@
         "statement": "Rebecca is louder than Kate",
         "question": "Who is less loud?",
         "choices": ["Rebecca", "Kate"],
-        "correctChoiceIndex": 1
+        "correctChoiceIndex": 1,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Reasoning",
         "statement": "Tracy has more money than Stephen",
         "question": "Who is poorer?",
         "choices": ["Tracy", "Stephen"],
-        "correctChoiceIndex": 1
+        "correctChoiceIndex": 1,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Reasoning",
         "statement": "Stewart is stronger than Joe",
         "question": "Who is stronger?",
         "choices": ["Stewart", "Joe"],
-        "correctChoiceIndex": 0
+        "correctChoiceIndex": 0,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Reasoning",
         "statement": "Joshua is not as flexible as Chris",
         "question": "Who is less adaptable?",
         "choices": ["Joshua", "Chris"],
-        "correctChoiceIndex": 0
+        "correctChoiceIndex": 0,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Reasoning",
         "statement": "Bob is not as happy as Paul",
         "question": "Who is sadder?",
         "choices": ["Bob", "Paul"],
-        "correctChoiceIndex": 0
+        "correctChoiceIndex": 0,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Perceptual Speed",
@@ -43,42 +48,50 @@
             ["h", "H"]
         ],
         "choices": ["0", "1", "2", "3", "4"],
-        "correctChoiceIndex": 3
+        "correctChoiceIndex": 3,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Number Speed and Accuracy",
         "choices": ["4", "2", "8"],
-        "correctChoiceIndex": 2
+        "correctChoiceIndex": 2,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Number Speed and Accuracy",
         "choices": ["12", "3", "5"],
-        "correctChoiceIndex": 0
+        "correctChoiceIndex": 0,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Number Speed and Accuracy",
         "choices": ["10", "7", "5"],
-        "correctChoiceIndex": 0
+        "correctChoiceIndex": 0,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Number Speed and Accuracy",
         "choices": ["11", "13", "16"],
-        "correctChoiceIndex": 2
+        "correctChoiceIndex": 2,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Word Meaning",
         "choices": ["halt", "cold", "stop"],
-        "correctChoiceIndex": 1
+        "correctChoiceIndex": 1,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Word Meaning",
         "choices": ["up", "down", "street"],
-        "correctChoiceIndex": 2
+        "correctChoiceIndex": 2,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Word Meaning",
         "choices": ["below", "under", "letter"],
-        "correctChoiceIndex": 2
+        "correctChoiceIndex": 2,
+        "selectedChoiceIndex": -1
     },
     {
         "category": "Spatial Visualisation",
@@ -109,6 +122,7 @@
             ]
         ],
         "choices": ["0", "1", "2"],
-        "correctChoiceIndex": 1
+        "correctChoiceIndex": 1,
+        "selectedChoiceIndex": -1
     }
 ]

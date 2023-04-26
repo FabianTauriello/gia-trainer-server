@@ -1,4 +1,4 @@
-import { Question } from "../domain/types";
+import { Question } from "../domain/Types";
 import { CATEGORY_SORT_ORDER } from "./Constants";
 
 // TODO consider a better implementation here because CATEGORY_SORT_ORDER is of type 'any'
