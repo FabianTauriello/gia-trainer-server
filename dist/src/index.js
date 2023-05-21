@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const questions_json_1 = __importDefault(require("../data/questions.json"));
 const Utils_1 = require("./utils/Utils");
+const auth_1 = require("./services/auth");
 const app = (0, express_1.default)();
+app.use(express_1.default.json());
 const port = 3001;
 // TODO change this behaviour later. This is not recommended for production environments, as it may pose
 // security risks. It's better to restrict the origins that can access your API by specifying them explicitly.
@@ -30,4 +32,15 @@ app.get("/quizQuestions", (req, res) => {
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
+});
+app.post("/signIn", (req, res) => { });
+app.post("/signUp", (req, res) => {
+    if ((0, Utils_1.isUser)(req.body)) {
+        const newUser = req.body;
+        auth_1.Auth.createUser(newUser);
+        res.sendStatus(201);
+    }
+    else {
+        res.sendStatus(404);
+    }
 });

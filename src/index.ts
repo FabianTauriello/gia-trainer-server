@@ -1,9 +1,11 @@
 import express from "express";
 import questionData from "../data/questions.json";
-import { Question } from "./domain/Types";
-import { sortQuestionsByCategory } from "./utils/Utils";
+import { Question, User } from "./domain/Types";
+import { isUser, sortQuestionsByCategory } from "./utils/Utils";
+import { Auth } from "./services/auth";
 
 const app = express();
+app.use(express.json());
 const port = 3001;
 
 // TODO change this behaviour later. This is not recommended for production environments, as it may pose
@@ -33,4 +35,17 @@ app.get("/quizQuestions", (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
+});
+
+app.post("/signIn", (req, res) => {});
+
+app.post("/signUp", (req, res) => {
+  if (isUser(req.body)) {
+    const newUser = req.body;
+    Auth.createUser(newUser);
+
+    res.sendStatus(201);
+  } else {
+    res.sendStatus(404);
+  }
 });

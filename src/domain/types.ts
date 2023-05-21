@@ -15,3 +15,10 @@ type Letter = {
   rot: number;
   flip: boolean;
 };
+
+export type User = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};

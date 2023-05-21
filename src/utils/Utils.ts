@@ -1,4 +1,4 @@
-import { Question } from "../domain/Types";
+import { Question, User } from "../domain/Types";
 import { CATEGORY_SORT_ORDER } from "./Constants";
 
 // TODO consider a better implementation here because CATEGORY_SORT_ORDER is of type 'any'
@@ -16,4 +16,16 @@ export function sortQuestionsByCategory(questions: Question[]) {
   });
 
   return copy;
+}
+
+export function isUser(obj: any) {
+  if (typeof obj === "object" && obj !== null) {
+    return (
+      typeof obj.email === "string" &&
+      typeof obj.password === "string" &&
+      typeof obj.firstName === "string" &&
+      typeof obj.lastName === "string"
+    );
+  }
+  return false;
 }

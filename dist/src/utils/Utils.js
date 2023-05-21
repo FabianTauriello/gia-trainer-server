@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortQuestionsByCategory = void 0;
+exports.isUser = exports.sortQuestionsByCategory = void 0;
 const Constants_1 = require("./Constants");
 // TODO consider a better implementation here because CATEGORY_SORT_ORDER is of type 'any'
 function sortQuestionsByCategory(questions) {
@@ -18,3 +18,13 @@ function sortQuestionsByCategory(questions) {
     return copy;
 }
 exports.sortQuestionsByCategory = sortQuestionsByCategory;
+function isUser(obj) {
+    if (typeof obj === "object" && obj !== null) {
+        return (typeof obj.email === "string" &&
+            typeof obj.password === "string" &&
+            typeof obj.firstName === "string" &&
+            typeof obj.lastName === "string");
+    }
+    return false;
+}
+exports.isUser = isUser;
