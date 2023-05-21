@@ -8,22 +8,29 @@ dotenv.config({
   path: path.join(__dirname, "..", "..", "..", ".env"),
 });
 
-const connection = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  // host: "127.0.0.1",
-  // user: "root",
-  // password: "",
-  // database: "gia_trainer",
-});
+const connectionPool = mysql
+  .createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+  })
+  .promise(); // enables promise api version so I can use async/await instead of callbacks
 
 export namespace Auth {
-  export function createUser(user: User) {
-    const query = "INSERT INTO user (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
-    const res = connection.query(query, [user.email, user.password, user.firstName, user.lastName]);
+  export async function createUser(newUser: User) {
+    try {
+      const query = "INSERT INTO user (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
+      const [result] = await connectionPool.query(query, [
+        newUser.email,
+        newUser.password,
+        newUser.firstName,
+        newUser.lastName,
+      ]);
 
-    console.log("result to sign-up: ", res);
+      console.log("result to sign-up: ", result);
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 }

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const questions_json_1 = __importDefault(require("../data/questions.json"));
 const Utils_1 = require("./utils/Utils");
-const auth_1 = require("./services/auth");
+const Auth_1 = require("./services/Auth");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const port = 3001;
@@ -37,7 +37,7 @@ app.post("/signIn", (req, res) => { });
 app.post("/signUp", (req, res) => {
     if ((0, Utils_1.isUser)(req.body)) {
         const newUser = req.body;
-        auth_1.Auth.createUser(newUser);
+        Auth_1.Auth.createUser(newUser);
         res.sendStatus(201);
     }
     else {

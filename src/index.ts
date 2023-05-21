@@ -2,7 +2,7 @@ import express from "express";
 import questionData from "../data/questions.json";
 import { Question, User } from "./domain/Types";
 import { isUser, sortQuestionsByCategory } from "./utils/Utils";
-import { Auth } from "./services/auth";
+import { Auth } from "./services/Auth";
 
 const app = express();
 app.use(express.json());
