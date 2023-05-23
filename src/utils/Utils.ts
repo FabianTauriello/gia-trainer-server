@@ -18,7 +18,7 @@ export function sortQuestionsByCategory(questions: Question[]) {
   return copy;
 }
 
-export function isUser(obj: any) {
+export function isUser(obj: any): obj is User {
   if (typeof obj === "object" && obj !== null) {
     return (
       typeof obj.email === "string" &&
@@ -26,6 +26,13 @@ export function isUser(obj: any) {
       typeof obj.firstName === "string" &&
       typeof obj.lastName === "string"
     );
+  }
+  return false;
+}
+
+export function hasSentCredentials(obj: any): obj is { email: string; password: string } {
+  if (typeof obj === "object" && obj !== null) {
+    return typeof obj.email === "string" && typeof obj.password === "string";
   }
   return false;
 }

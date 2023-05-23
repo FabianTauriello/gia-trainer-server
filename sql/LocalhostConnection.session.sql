@@ -28,6 +28,13 @@ INSERT INTO user VALUES
 DELETE FROM user WHERE id = "1";
 
 -- @block
+DELETE FROM user WHERE first_name = "jack";
+
+-- @block
+-- This will reset the table i.e. all the auto incremental fields will be reset. Its a DDL and its very fast. 
+TRUNCATE user
+
+-- @block
 UPDATE user
 SET password = 'password1'
 WHERE email = 'fabian';

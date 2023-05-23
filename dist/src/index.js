@@ -1,12 +1,21 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const questions_json_1 = __importDefault(require("../data/questions.json"));
-const Utils_1 = require("./utils/Utils");
 const Auth_1 = require("./services/Auth");
+const Utils_1 = require("./utils/Utils");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const port = 3001;
@@ -33,14 +42,31 @@ app.get("/quizQuestions", (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
-app.post("/signIn", (req, res) => { });
-app.post("/signUp", (req, res) => {
-    if ((0, Utils_1.isUser)(req.body)) {
-        const newUser = req.body;
-        Auth_1.Auth.createUser(newUser);
-        res.sendStatus(201);
+app.post("/signIn", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const credentials = req.body;
+    if ((0, Utils_1.hasSentCredentials)(credentials)) {
+        const authenticationResponse = yield Auth_1.Auth.authenticateUser(credentials.email, credentials.password);
+        res.status(authenticationResponse.statusCode).send(authenticationResponse);
     }
     else {
-        res.sendStatus(404);
+        res.status(400).send({
+            success: false,
+            statusCode: 400,
+            message: "Credentials not passed in correctly",
+        });
     }
-});
+}));
+app.post("/signUp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newUser = req.body;
+    if ((0, Utils_1.isUser)(newUser)) {
+        const createUserResponse = yield Auth_1.Auth.createUser(newUser);
+        res.status(createUserResponse.statusCode).send(createUserResponse);
+    }
+    else {
+        res.status(400).send({
+            success: false,
+            statusCode: 400,
+            message: "User object not passed in correctly",
+        });
+    }
+}));

@@ -1,8 +1,8 @@
 import express from "express";
 import questionData from "../data/questions.json";
-import { Question, User } from "./domain/Types";
-import { isUser, sortQuestionsByCategory } from "./utils/Utils";
+import { ApiResponse, Question, User } from "./domain/Types";
 import { Auth } from "./services/Auth";
+import { hasSentCredentials, isUser, sortQuestionsByCategory } from "./utils/Utils";
 
 const app = express();
 app.use(express.json());
@@ -37,15 +37,30 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-app.post("/signIn", (req, res) => {});
-
-app.post("/signUp", (req, res) => {
-  if (isUser(req.body)) {
-    const newUser = req.body;
-    Auth.createUser(newUser);
-
-    res.sendStatus(201);
+app.post("/signIn", async (req, res) => {
+  const credentials = req.body;
+  if (hasSentCredentials(credentials)) {
+    const authenticationResponse = await Auth.authenticateUser(credentials.email, credentials.password);
+    res.status(authenticationResponse.statusCode).send(authenticationResponse);
   } else {
-    res.sendStatus(404);
+    res.status(400).send({
+      success: false,
+      statusCode: 400,
+      message: "Credentials not passed in correctly",
+    } as ApiResponse);
+  }
+});
+
+app.post("/signUp", async (req, res) => {
+  const newUser = req.body;
+  if (isUser(newUser)) {
+    const createUserResponse = await Auth.createUser(newUser);
+    res.status(createUserResponse.statusCode).send(createUserResponse);
+  } else {
+    res.status(400).send({
+      success: false,
+      statusCode: 400,
+      message: "User object not passed in correctly",
+    } as ApiResponse);
   }
 });
