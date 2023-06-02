@@ -96,7 +96,7 @@ export namespace Auth {
         if (match) {
           return {
             success: true,
-            data: "JWT",
+            data: "JWT", // TODO
             statusCode: 200,
             message: "",
           };

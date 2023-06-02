@@ -35,7 +35,7 @@ app.get("/quizQuestions", (req, res) => {
     // res.json(questions);
     // TODO kinda ugly
     const numberedQuestions = questions_json_1.default.map((q, i) => (Object.assign(Object.assign({}, q), { number: i })));
-    const sortedQuestions = (0, Utils_1.sortQuestionsByCategory)(numberedQuestions);
+    const sortedQuestions = Utils_1.Utils.sortQuestionsByCategory(numberedQuestions);
     const finalQuestions = sortedQuestions.map((q, i) => (Object.assign(Object.assign({}, q), { number: i + 1 })));
     res.json(finalQuestions);
 });
@@ -44,7 +44,8 @@ app.listen(port, () => {
 });
 app.post("/signIn", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const credentials = req.body;
-    if ((0, Utils_1.hasSentCredentials)(credentials)) {
+    console.log("cred:", credentials);
+    if (Utils_1.Utils.hasSentCredentials(credentials)) {
         const authenticationResponse = yield Auth_1.Auth.authenticateUser(credentials.email, credentials.password);
         res.status(authenticationResponse.statusCode).send(authenticationResponse);
     }
@@ -58,7 +59,7 @@ app.post("/signIn", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 app.post("/signUp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = req.body;
-    if ((0, Utils_1.isUser)(newUser)) {
+    if (Utils_1.Utils.isUser(newUser)) {
         const createUserResponse = yield Auth_1.Auth.createUser(newUser);
         res.status(createUserResponse.statusCode).send(createUserResponse);
     }

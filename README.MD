@@ -16,7 +16,7 @@ mysql -u root -p
 mysql
 ```
 
-##STEPS TO AUTHENTICATION
+## STEPS TO AUTHENTICATION
 
 To authenticate users on your MySQL Express.js app, you can follow the steps below:
 
