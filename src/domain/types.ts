@@ -19,11 +19,16 @@ type Letter = {
 };
 
 export type User = {
+  id: string;
   email: string;
   password: string;
   firstName: string;
   lastName: string;
-} & RowDataPacket;
+};
+
+export type UserDataRow = User & RowDataPacket;
+
+export type SanitizedUser = Omit<User, "password">;
 
 export type Credentials = {
   email: string;

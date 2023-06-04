@@ -30,6 +30,7 @@ app.use((_req, res, next) => {
 app.get("/", (req, res) => {
     res.send("Hello World!!");
 });
+// update endpoint to return type ApiResponse instead
 app.get("/quizQuestions", (req, res) => {
     // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
     // res.json(questions);

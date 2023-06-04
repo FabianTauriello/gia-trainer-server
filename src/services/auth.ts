@@ -1,4 +1,4 @@
-import { ApiResponse, Credentials, User } from "../domain/Types";
+import { ApiResponse, SanitizedUser, User, UserDataRow } from "../domain/Types";
 import { Utils } from "../utils/Utils";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -72,10 +72,11 @@ export namespace Auth {
 
   // uses parameterized queries (?) to defend against sql injection
   // returns success if query executed successfully, but beware, result array might be empty
+  // data will be set to an array of users that meet the condition
   export async function selectUser(key: string, value: string): Promise<ApiResponse<User[]>> {
     try {
       const query = `SELECT * FROM user WHERE ${key} = ?`;
-      const [result] = await connectionPool.query<User[]>(query, [value]);
+      const [result] = await connectionPool.query<UserDataRow[]>(query, [value]);
       return {
         success: true,
         data: result,
@@ -93,7 +94,9 @@ export namespace Auth {
   }
 
   // return success if authorisec
-  export async function authenticateUser(credentials: unknown): Promise<ApiResponse<string>> {
+  export async function authenticateUser(
+    credentials: unknown
+  ): Promise<ApiResponse<{ user: SanitizedUser; token: string }>> {
     try {
       // verify email and password were passed in correctly first
       if (!Utils.isCredentials(credentials)) {
@@ -107,13 +110,19 @@ export namespace Auth {
       const usersFound = await selectUser("email", credentials.email);
       if (!usersFound.success) throw "unable to retrieve user";
       if (usersFound.data?.length) {
-        const match = await bcrypt.compare(credentials.password, usersFound.data[0].password);
+        const user = usersFound.data[0];
+        const match = await bcrypt.compare(credentials.password, user.password);
         if (match) {
           // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
           const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
+          // remove password before returning user
+          const { password, ...userWithoutPassword } = user;
           return {
             success: true,
-            data: token,
+            data: {
+              user: userWithoutPassword,
+              token: token,
+            },
             statusCode: 200,
             message: "",
           };

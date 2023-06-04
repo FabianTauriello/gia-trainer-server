@@ -16,6 +16,10 @@ mysql -u root -p
 mysql
 ```
 
+### TODOs:
+
+- [ ] consider adding dist folder to .gitIgnore
+
 ## STEPS TO AUTHENTICATION
 
 To authenticate users on your MySQL Express.js app, you can follow the steps below:

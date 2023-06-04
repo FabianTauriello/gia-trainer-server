@@ -1,6 +1,6 @@
 import express from "express";
 import questionData from "../data/questions.json";
-import { ApiResponse, Question, User } from "./domain/Types";
+import { ApiResponse, Question } from "./domain/Types";
 import { Auth } from "./services/Auth";
 import { Utils } from "./utils/Utils";
 
@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!!");
 });
 
+// update endpoint to return type ApiResponse instead
 app.get("/quizQuestions", (req, res) => {
   // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
   // res.json(questions);

@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -90,6 +101,7 @@ var Auth;
     Auth.createUser = createUser;
     // uses parameterized queries (?) to defend against sql injection
     // returns success if query executed successfully, but beware, result array might be empty
+    // data will be set to an array of users that meet the condition
     function selectUser(key, value) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -131,13 +143,19 @@ var Auth;
                 if (!usersFound.success)
                     throw "unable to retrieve user";
                 if ((_a = usersFound.data) === null || _a === void 0 ? void 0 : _a.length) {
-                    const match = yield bcrypt_1.default.compare(credentials.password, usersFound.data[0].password);
+                    const user = usersFound.data[0];
+                    const match = yield bcrypt_1.default.compare(credentials.password, user.password);
                     if (match) {
                         // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
                         const token = jsonwebtoken_1.default.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY, { expiresIn: "60d" }); // TODO test expiration time
+                        // remove password before returning user
+                        const { password } = user, userWithoutPassword = __rest(user, ["password"]);
                         return {
                             success: true,
-                            data: token,
+                            data: {
+                                user: userWithoutPassword,
+                                token: token,
+                            },
                             statusCode: 200,
                             message: "",
                         };

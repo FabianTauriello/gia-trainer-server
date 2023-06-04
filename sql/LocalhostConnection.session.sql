@@ -43,6 +43,10 @@ WHERE email = 'fabian';
 ALTER TABLE user
 ADD password VARCHAR(255) NOT NULL;
 
+-- @block
+ALTER TABLE user
+RENAME COLUMN last_name TO lastName;
+
 -- GENERAL QUERIES
 
 -- @block
