@@ -25,6 +25,11 @@ export type User = {
   lastName: string;
 } & RowDataPacket;
 
+export type Credentials = {
+  email: string;
+  password: string;
+};
+
 // Response codes:
 // 200 OK
 // 201 Created

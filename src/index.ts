@@ -39,29 +39,12 @@ app.listen(port, () => {
 
 app.post("/signIn", async (req, res) => {
   const credentials = req.body;
-  console.log("cred:", credentials);
-  if (Utils.hasSentCredentials(credentials)) {
-    const authenticationResponse = await Auth.authenticateUser(credentials.email, credentials.password);
-    res.status(authenticationResponse.statusCode).send(authenticationResponse);
-  } else {
-    res.status(400).send({
-      success: false,
-      statusCode: 400,
-      message: "Credentials not passed in correctly",
-    } as ApiResponse);
-  }
+  const authResponse = await Auth.authenticateUser(credentials);
+  res.status(authResponse.statusCode).send(authResponse);
 });
 
 app.post("/signUp", async (req, res) => {
   const newUser = req.body;
-  if (Utils.isUser(newUser)) {
-    const createUserResponse = await Auth.createUser(newUser);
-    res.status(createUserResponse.statusCode).send(createUserResponse);
-  } else {
-    res.status(400).send({
-      success: false,
-      statusCode: 400,
-      message: "User object not passed in correctly",
-    } as ApiResponse);
-  }
+  const createUserResponse = await Auth.createUser(newUser);
+  res.status(createUserResponse.statusCode).send(createUserResponse);
 });

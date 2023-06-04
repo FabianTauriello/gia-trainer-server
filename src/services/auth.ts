@@ -1,8 +1,10 @@
+import { ApiResponse, Credentials, User } from "../domain/Types";
+import { Utils } from "../utils/Utils";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import mysql, { ResultSetHeader } from "mysql2";
-import { ApiResponse, User } from "../domain/Types";
-import dotenv from "dotenv";
 import path from "path";
+import dotenv from "dotenv";
 
 dotenv.config({
   path: path.join(__dirname, "..", "..", "..", ".env"),
@@ -19,20 +21,26 @@ const connectionPool = mysql
 
 export namespace Auth {
   // TODO how do i determine difference between success = false because exception thrown, and success = false because user already exists? - need to know for different status codes
-  export async function createUser(newUser: User): Promise<ApiResponse<string>> {
+  export async function createUser(newUser: unknown): Promise<ApiResponse<string>> {
     try {
+      // verify user object is valid
+      if (!Utils.isUser(newUser)) {
+        return {
+          success: false,
+          statusCode: 400,
+          message: "User object not passed in correctly",
+        };
+      }
       // check if user exists before inserting a new one
       const usersFound = await selectUser("email", newUser.email);
       if (!usersFound.success) throw "unable to verify if user already exists";
       if (usersFound.data?.length) {
         return {
           success: false,
-          // data: "",
           statusCode: 409,
-          message: "User already exists",
+          message: "Email already in use",
         };
       }
-
       // hash password and insert new user. OWASP reccomends at least 10 for rounds - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
       const hashedPassword = await bcrypt.hash(newUser.password, 10);
       const query = "INSERT INTO user (email, password, first_name, last_name) VALUES (?, ?, ?, ?)";
@@ -56,9 +64,8 @@ export namespace Auth {
       console.error(`ERROR! ${error}`);
       return {
         success: false,
-        // data: "",
         statusCode: 500,
-        message: "Failed to create a new user: ${error}",
+        message: `Failed to create a new user: ${error}`,
       };
     }
   }
@@ -79,7 +86,6 @@ export namespace Auth {
       console.error(`ERROR! ${error}`); // TODO .log or .error ?
       return {
         success: false,
-        // data: [],
         statusCode: 500,
         message: "Failed to retrieve users: ${error}",
       };
@@ -87,16 +93,27 @@ export namespace Auth {
   }
 
   // return success if authorisec
-  export async function authenticateUser(email: string, password: string): Promise<ApiResponse<string>> {
+  export async function authenticateUser(credentials: unknown): Promise<ApiResponse<string>> {
     try {
-      const usersFound = await selectUser("email", email);
+      // verify email and password were passed in correctly first
+      if (!Utils.isCredentials(credentials)) {
+        return {
+          success: false,
+          statusCode: 400,
+          message: "Credentials not passed in correctly",
+        };
+      }
+      // check if user exists and password is valid
+      const usersFound = await selectUser("email", credentials.email);
       if (!usersFound.success) throw "unable to retrieve user";
       if (usersFound.data?.length) {
-        const match = await bcrypt.compare(password, usersFound.data[0].password);
+        const match = await bcrypt.compare(credentials.password, usersFound.data[0].password);
         if (match) {
+          // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
+          const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
           return {
             success: true,
-            data: "JWT", // TODO
+            data: token,
             statusCode: 200,
             message: "",
           };
@@ -118,9 +135,8 @@ export namespace Auth {
       console.error(`ERROR! ${error}`); // TODO .log or .error ?
       return {
         success: false,
-        // data: "",
         statusCode: 500,
-        message: "Failed to authenticate user: ${error}",
+        message: `Failed to authenticate user: ${error}`,
       };
     }
   }

@@ -13,10 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
+const Utils_1 = require("../utils/Utils");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const mysql2_1 = __importDefault(require("mysql2"));
-const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
+const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({
     path: path_1.default.join(__dirname, "..", "..", "..", ".env"),
 });
@@ -35,6 +37,14 @@ var Auth;
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // verify user object is valid
+                if (!Utils_1.Utils.isUser(newUser)) {
+                    return {
+                        success: false,
+                        statusCode: 400,
+                        message: "User object not passed in correctly",
+                    };
+                }
                 // check if user exists before inserting a new one
                 const usersFound = yield selectUser("email", newUser.email);
                 if (!usersFound.success)
@@ -42,9 +52,8 @@ var Auth;
                 if ((_a = usersFound.data) === null || _a === void 0 ? void 0 : _a.length) {
                     return {
                         success: false,
-                        // data: "",
                         statusCode: 409,
-                        message: "User already exists",
+                        message: "Email already in use",
                     };
                 }
                 // hash password and insert new user. OWASP reccomends at least 10 for rounds - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
@@ -72,9 +81,8 @@ var Auth;
                 console.error(`ERROR! ${error}`);
                 return {
                     success: false,
-                    // data: "",
                     statusCode: 500,
-                    message: "Failed to create a new user: ${error}",
+                    message: `Failed to create a new user: ${error}`,
                 };
             }
         });
@@ -98,7 +106,6 @@ var Auth;
                 console.error(`ERROR! ${error}`); // TODO .log or .error ?
                 return {
                     success: false,
-                    // data: [],
                     statusCode: 500,
                     message: "Failed to retrieve users: ${error}",
                 };
@@ -107,19 +114,30 @@ var Auth;
     }
     Auth.selectUser = selectUser;
     // return success if authorisec
-    function authenticateUser(email, password) {
+    function authenticateUser(credentials) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const usersFound = yield selectUser("email", email);
+                // verify email and password were passed in correctly first
+                if (!Utils_1.Utils.isCredentials(credentials)) {
+                    return {
+                        success: false,
+                        statusCode: 400,
+                        message: "Credentials not passed in correctly",
+                    };
+                }
+                // check if user exists and password is valid
+                const usersFound = yield selectUser("email", credentials.email);
                 if (!usersFound.success)
                     throw "unable to retrieve user";
                 if ((_a = usersFound.data) === null || _a === void 0 ? void 0 : _a.length) {
-                    const match = yield bcrypt_1.default.compare(password, usersFound.data[0].password);
+                    const match = yield bcrypt_1.default.compare(credentials.password, usersFound.data[0].password);
                     if (match) {
+                        // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
+                        const token = jsonwebtoken_1.default.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY, { expiresIn: "60d" }); // TODO test expiration time
                         return {
                             success: true,
-                            data: "JWT",
+                            data: token,
                             statusCode: 200,
                             message: "",
                         };
@@ -144,9 +162,8 @@ var Auth;
                 console.error(`ERROR! ${error}`); // TODO .log or .error ?
                 return {
                     success: false,
-                    // data: "",
                     statusCode: 500,
-                    message: "Failed to authenticate user: ${error}",
+                    message: `Failed to authenticate user: ${error}`,
                 };
             }
         });
