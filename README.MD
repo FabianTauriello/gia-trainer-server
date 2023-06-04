@@ -19,6 +19,7 @@ mysql
 ### TODOs:
 
 - [ ] consider adding dist folder to .gitIgnore
+- [ ] remove questions.json from git!!! answers are out there for public to see!
 
 ## STEPS TO AUTHENTICATION
 
