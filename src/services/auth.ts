@@ -99,7 +99,7 @@ export namespace Auth {
   ): Promise<ApiResponse<{ user: SanitizedUser; token: string }>> {
     try {
       // verify email and password were passed in correctly first
-      if (!Utils.isCredentials(credentials)) {
+      if (!Utils.isLoginCredentials(credentials)) {
         return {
           success: false,
           statusCode: 400,
@@ -115,8 +115,8 @@ export namespace Auth {
         if (match) {
           // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
           const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
-          // remove password before returning user
-          const { password, ...userWithoutPassword } = user;
+          // remove email and password before returning user
+          const { email, password, ...userWithoutPassword } = user;
           return {
             success: true,
             data: {

@@ -1,4 +1,4 @@
-import { Credentials, Question, User } from "../domain/Types";
+import { LoginCredentials, Question, User } from "../domain/Types";
 import { CATEGORY_SORT_ORDER } from "./Constants";
 
 export namespace Utils {
@@ -31,7 +31,7 @@ export namespace Utils {
     return false;
   }
 
-  export function isCredentials(obj: any): obj is Credentials {
+  export function isLoginCredentials(obj: any): obj is LoginCredentials {
     if (typeof obj === "object" && obj !== null) {
       return typeof obj.email === "string" && typeof obj.password === "string";
     }

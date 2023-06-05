@@ -30,11 +30,11 @@ var Utils;
         return false;
     }
     Utils.isUser = isUser;
-    function isCredentials(obj) {
+    function isLoginCredentials(obj) {
         if (typeof obj === "object" && obj !== null) {
             return typeof obj.email === "string" && typeof obj.password === "string";
         }
         return false;
     }
-    Utils.isCredentials = isCredentials;
+    Utils.isLoginCredentials = isLoginCredentials;
 })(Utils = exports.Utils || (exports.Utils = {}));

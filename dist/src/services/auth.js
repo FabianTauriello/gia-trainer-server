@@ -131,7 +131,7 @@ var Auth;
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // verify email and password were passed in correctly first
-                if (!Utils_1.Utils.isCredentials(credentials)) {
+                if (!Utils_1.Utils.isLoginCredentials(credentials)) {
                     return {
                         success: false,
                         statusCode: 400,
@@ -148,8 +148,8 @@ var Auth;
                     if (match) {
                         // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
                         const token = jsonwebtoken_1.default.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY, { expiresIn: "60d" }); // TODO test expiration time
-                        // remove password before returning user
-                        const { password } = user, userWithoutPassword = __rest(user, ["password"]);
+                        // remove email and password before returning user
+                        const { email, password } = user, userWithoutPassword = __rest(user, ["email", "password"]);
                         return {
                             success: true,
                             data: {
