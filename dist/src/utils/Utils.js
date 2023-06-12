@@ -20,7 +20,7 @@ var Utils;
         return copy;
     }
     Utils.sortQuestionsByCategory = sortQuestionsByCategory;
-    function isUser(obj) {
+    function isNewUser(obj) {
         if (typeof obj === "object" && obj !== null) {
             return (typeof obj.email === "string" &&
                 typeof obj.password === "string" &&
@@ -29,7 +29,7 @@ var Utils;
         }
         return false;
     }
-    Utils.isUser = isUser;
+    Utils.isNewUser = isNewUser;
     function isLoginCredentials(obj) {
         if (typeof obj === "object" && obj !== null) {
             return typeof obj.email === "string" && typeof obj.password === "string";

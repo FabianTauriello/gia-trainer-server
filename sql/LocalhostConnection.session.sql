@@ -1,10 +1,4 @@
--- GIA_TRAINER QUERIES
-
--- @block
-USE gia_trainer;
-
--- @block
-SELECT * FROM user;
+-- ------------------------------------- USER QUERIES -------------------------------------
 
 -- @block
 CREATE TABLE user (
@@ -17,22 +11,25 @@ CREATE TABLE user (
 );
 
 -- @block
+SELECT * FROM user;
+
+-- @block
 DROP TABLE user;
 
 -- @block
+-- This will reset the table i.e. all the auto incremental fields will be reset. Its a DDL and its very fast. 
+TRUNCATE user
+
+-- @block
 INSERT INTO user VALUES 
-    (1, 'fabian@mail.com', 'password1', 'fabian', 't'), 
-    (2, 'jeremy@mail.com', 'password2', 'jeremy', 'smith');
+    (1, 'fabian@mail.com', 'password1', 'Fabian', 'T'), 
+    (2, 'jeremy@mail.com', 'password2', 'Jeremy', 'Smith');
 
 -- @block
 DELETE FROM user WHERE id = "1";
 
 -- @block
 DELETE FROM user WHERE first_name = "jack";
-
--- @block
--- This will reset the table i.e. all the auto incremental fields will be reset. Its a DDL and its very fast. 
-TRUNCATE user
 
 -- @block
 UPDATE user
@@ -47,7 +44,29 @@ ADD password VARCHAR(255) NOT NULL;
 ALTER TABLE user
 RENAME COLUMN last_name TO lastName;
 
--- GENERAL QUERIES
+-- ------------------------------------- QUIZ ATTEMPT QUERIES -------------------------------------
+
+-- @block
+CREATE TABLE quizAttempt (
+   id INT NOT NULL AUTO_INCREMENT,
+   FOREIGN KEY (userId) REFERENCES user(id),
+   PRIMARY KEY (id)
+);
+
+-- @block
+SELECT * FROM quizAttempt;
+
+-- @block
+DROP TABLE quizAttempt;
+
+-- @block
+ALTER TABLE quizAttempt
+DROP FOREIGN KEY userId;
+
+-- ------------------------------------- GENERAL QUERIES -------------------------------------
+
+-- @block
+USE gia_trainer;
 
 -- @block
 SELECT * FROM mysql.user;

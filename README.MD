@@ -2,7 +2,7 @@
 
 API for gia-trainer using Express.js
 
-## Starting MySQL Server on my local machine (Mac OS)
+### Starting MySQL Server on my local machine (Mac OS)
 
 root user access:
 
@@ -21,7 +21,15 @@ mysql
 - [ ] consider adding dist folder to .gitIgnore
 - [ ] remove questions.json from git!!! answers are out there for public to see!
 
-## STEPS TO AUTHENTICATION
+### DB SCHEMAS
+
+Option 1:
+![schema 1](assets/schema-1.png "Title")
+
+Option 2:
+![schema 2](assets/schema-2.png "Title")
+
+### STEPS TO AUTHENTICATION
 
 To authenticate users on your MySQL Express.js app, you can follow the steps below:
 

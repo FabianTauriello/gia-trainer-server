@@ -43,6 +43,7 @@ export type LoginCredentials = {
 // 500 Internal Server Error
 // generic type for data, with default of null
 export type ApiResponse<T = null> = {
+  // TODO might not need success prop. can just use data prop for success calls?
   success: boolean;
   data?: T;
   statusCode: 200 | 201 | 400 | 401 | 409 | 500;

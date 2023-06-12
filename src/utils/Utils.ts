@@ -19,7 +19,7 @@ export namespace Utils {
     return copy;
   }
 
-  export function isUser(obj: any): obj is User {
+  export function isNewUser(obj: any): obj is User {
     if (typeof obj === "object" && obj !== null) {
       return (
         typeof obj.email === "string" &&

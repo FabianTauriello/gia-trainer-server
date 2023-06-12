@@ -21,17 +21,19 @@ app.get("/", (req, res) => {
   res.send("Hello World!!");
 });
 
-// update endpoint to return type ApiResponse instead
+// TODO update endpoint to return type ApiResponse instead
 app.get("/quizQuestions", (req, res) => {
-  // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
-  // res.json(questions);
+  setTimeout(() => {
+    // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
+    // res.json(questions);
 
-  // TODO kinda ugly
-  const numberedQuestions: Question[] = questionData.map((q, i) => ({ ...q, number: i }));
-  const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
-  const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
+    // TODO kinda ugly
+    const numberedQuestions: Question[] = questionData.map((q, i) => ({ ...q, number: i }));
+    const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
+    const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
 
-  res.json(finalQuestions);
+    res.json(finalQuestions);
+  }, 5000);
 });
 
 app.listen(port, () => {

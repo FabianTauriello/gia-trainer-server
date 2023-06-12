@@ -30,15 +30,17 @@ app.use((_req, res, next) => {
 app.get("/", (req, res) => {
     res.send("Hello World!!");
 });
-// update endpoint to return type ApiResponse instead
+// TODO update endpoint to return type ApiResponse instead
 app.get("/quizQuestions", (req, res) => {
-    // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
-    // res.json(questions);
-    // TODO kinda ugly
-    const numberedQuestions = questions_json_1.default.map((q, i) => (Object.assign(Object.assign({}, q), { number: i })));
-    const sortedQuestions = Utils_1.Utils.sortQuestionsByCategory(numberedQuestions);
-    const finalQuestions = sortedQuestions.map((q, i) => (Object.assign(Object.assign({}, q), { number: i + 1 })));
-    res.json(finalQuestions);
+    setTimeout(() => {
+        // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
+        // res.json(questions);
+        // TODO kinda ugly
+        const numberedQuestions = questions_json_1.default.map((q, i) => (Object.assign(Object.assign({}, q), { number: i })));
+        const sortedQuestions = Utils_1.Utils.sortQuestionsByCategory(numberedQuestions);
+        const finalQuestions = sortedQuestions.map((q, i) => (Object.assign(Object.assign({}, q), { number: i + 1 })));
+        res.json(finalQuestions);
+    }, 5000);
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
