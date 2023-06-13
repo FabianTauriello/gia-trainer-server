@@ -20,7 +20,7 @@ const connectionPool = mysql
   .promise(); // enables promise api version so I can use async/await instead of callbacks
 
 export namespace Auth {
-  // return success if authorisec
+  // return success if authorised
   export async function authenticateUser(
     credentials: unknown
   ): Promise<ApiResponse<{ user: SanitizedUser; token: string }>> {
