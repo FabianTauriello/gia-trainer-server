@@ -85,8 +85,8 @@ export namespace Auth {
       }
       // hash password and insert new user. OWASP reccomends at least 10 for rounds - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
       const hashedPassword = await bcrypt.hash(newUser.password, 10);
-      const query = "INSERT INTO user (email, password, firstName, lastName) VALUES (?, ?, ?, ?)";
-      const [result] = await connectionPool.query<ResultSetHeader>(query, [
+      const sql = "INSERT INTO user (email, password, firstName, lastName) VALUES (?, ?, ?, ?)";
+      const [result] = await connectionPool.query<ResultSetHeader>(sql, [
         newUser.email,
         hashedPassword,
         newUser.firstName,
@@ -117,8 +117,8 @@ export namespace Auth {
   // data will be set to an array of users that meet the condition
   export async function selectUser(key: string, value: string): Promise<ApiResponse<User[]>> {
     try {
-      const query = `SELECT * FROM user WHERE ${key} = ?`;
-      const [result] = await connectionPool.query<UserDataRow[]>(query, [value]);
+      const sql = `SELECT * FROM user WHERE ${key} = ?`;
+      const [result] = await connectionPool.query<UserDataRow[]>(sql, [value]);
       return {
         success: true,
         data: result,
