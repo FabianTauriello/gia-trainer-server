@@ -3,6 +3,7 @@ import questionData from "../data/questions.json";
 import { ApiResponse, Question } from "./domain/Types";
 import { Auth } from "./services/Auth";
 import { Utils } from "./utils/Utils";
+import { Quiz } from "./services/Quiz";
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,10 @@ app.use((_req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
 });
 
 app.get("/", (req, res) => {
@@ -33,21 +38,24 @@ app.get("/quizQuestions", (req, res) => {
     const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
 
     res.json(finalQuestions);
-  }, 5000);
+  }, 1000);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.post("/addQuizAttempt", async (req, res) => {
+  console.log("bod: ", req.body);
+  const attempt = req.body;
+  const response = await Quiz.addAttempt(attempt);
+  res.status(response.statusCode).send(response);
 });
 
 app.post("/signIn", async (req, res) => {
   const credentials = req.body;
-  const authResponse = await Auth.authenticateUser(credentials);
-  res.status(authResponse.statusCode).send(authResponse);
+  const response = await Auth.authenticateUser(credentials);
+  res.status(response.statusCode).send(response);
 });
 
 app.post("/signUp", async (req, res) => {
   const newUser = req.body;
-  const createUserResponse = await Auth.createUser(newUser);
-  res.status(createUserResponse.statusCode).send(createUserResponse);
+  const response = await Auth.createUser(newUser);
+  res.status(response.statusCode).send(response);
 });

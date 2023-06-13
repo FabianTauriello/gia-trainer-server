@@ -1,5 +1,11 @@
 import { RowDataPacket } from "mysql2";
 
+export type QuizAttempt = {
+  id: string;
+  questions: Question[];
+  totalScore: number;
+};
+
 export type Question = {
   number: number;
   category: string;

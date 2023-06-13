@@ -56,6 +56,9 @@ CREATE TABLE quizAttempt (
 );
 
 -- @block
+INSERT INTO quizAttempt VALUES (1, 1, '20');
+
+-- @block
 SELECT * FROM quizAttempt;
 
 -- @block

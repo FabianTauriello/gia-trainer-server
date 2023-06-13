@@ -43,7 +43,7 @@ const connectionPool = mysql2_1.default
     .promise(); // enables promise api version so I can use async/await instead of callbacks
 var Auth;
 (function (Auth) {
-    // return success if authorisec
+    // return success if authorised
     function authenticateUser(credentials) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
@@ -99,7 +99,7 @@ var Auth;
                 return {
                     success: false,
                     statusCode: 500,
-                    message: `Failed to sign in: ${error}`,
+                    message: `Failed to sign in. ${error}`,
                 };
             }
         });
@@ -154,7 +154,7 @@ var Auth;
                 return {
                     success: false,
                     statusCode: 500,
-                    message: `Failed to sign up: ${error}`,
+                    message: `Failed to sign up. ${error}`,
                 };
             }
         });
@@ -180,7 +180,7 @@ var Auth;
                 return {
                     success: false,
                     statusCode: 500,
-                    message: "Failed to retrieve users: ${error}",
+                    message: "Failed to retrieve users. ${error}",
                 };
             }
         });

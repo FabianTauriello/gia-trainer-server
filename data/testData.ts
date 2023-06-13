@@ -1,5 +1,3 @@
-import { Question, QuizAttempt } from "domain/Types";
-
 // this questions array is similar to one obtained from server
 const questions = [
   // Reasoning
@@ -149,7 +147,7 @@ const questions = [
   },
 ];
 
-export const testAttempt: QuizAttempt = {
+export const testAttempt: any = {
   id: "visitor",
   questions: questions,
   totalScore: 0,

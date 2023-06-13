@@ -19,6 +19,7 @@ mysql
 ### TODOs:
 
 - [ ] consider adding dist folder to .gitIgnore
+- [ ] add tests for all API endpoints to postman
 - [ ] remove questions.json from git!!! answers are out there for public to see!
 
 ### DB Schemas

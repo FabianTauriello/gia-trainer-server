@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const questions_json_1 = __importDefault(require("../data/questions.json"));
 const Auth_1 = require("./services/Auth");
 const Utils_1 = require("./utils/Utils");
+const Quiz_1 = require("./services/Quiz");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const port = 3001;
@@ -26,6 +27,9 @@ app.use((_req, res, next) => {
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
+});
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
 });
 app.get("/", (req, res) => {
     res.send("Hello World!!");
@@ -40,18 +44,21 @@ app.get("/quizQuestions", (req, res) => {
         const sortedQuestions = Utils_1.Utils.sortQuestionsByCategory(numberedQuestions);
         const finalQuestions = sortedQuestions.map((q, i) => (Object.assign(Object.assign({}, q), { number: i + 1 })));
         res.json(finalQuestions);
-    }, 5000);
+    }, 1000);
 });
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+app.post("/addQuizAttempt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("bod: ", req.body);
+    const attempt = req.body;
+    const response = yield Quiz_1.Quiz.addAttempt(attempt);
+    res.status(response.statusCode).send(response);
+}));
 app.post("/signIn", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const credentials = req.body;
-    const authResponse = yield Auth_1.Auth.authenticateUser(credentials);
-    res.status(authResponse.statusCode).send(authResponse);
+    const response = yield Auth_1.Auth.authenticateUser(credentials);
+    res.status(response.statusCode).send(response);
 }));
 app.post("/signUp", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = req.body;
-    const createUserResponse = yield Auth_1.Auth.createUser(newUser);
-    res.status(createUserResponse.statusCode).send(createUserResponse);
+    const response = yield Auth_1.Auth.createUser(newUser);
+    res.status(response.statusCode).send(response);
 }));

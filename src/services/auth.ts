@@ -72,7 +72,7 @@ export namespace Auth {
       return {
         success: false,
         statusCode: 500,
-        message: `Failed to sign in: ${error}`,
+        message: `Failed to sign in. ${error}`,
       };
     }
   }
@@ -121,7 +121,7 @@ export namespace Auth {
       return {
         success: false,
         statusCode: 500,
-        message: `Failed to sign up: ${error}`,
+        message: `Failed to sign up. ${error}`,
       };
     }
   }
@@ -144,7 +144,7 @@ export namespace Auth {
       return {
         success: false,
         statusCode: 500,
-        message: "Failed to retrieve users: ${error}",
+        message: "Failed to retrieve users. ${error}",
       };
     }
   }
