@@ -1,9 +1,9 @@
 import express from "express";
 import questionData from "../data/questions.json";
-import { ApiResponse, Question } from "./domain/Types";
-import { Auth } from "./services/Auth";
-import { Utils } from "./utils/Utils";
-import { Quiz } from "./services/Quiz";
+import { Question } from "./domain/Types.js";
+import { Auth } from "./services/Auth.js";
+import { Utils } from "./utils/Utils.js";
+import { Quiz } from "./services/Quiz.js";
 
 const app = express();
 app.use(express.json());
@@ -26,6 +26,18 @@ app.get("/", (req, res) => {
   res.send("Hello World!!");
 });
 
+app.post("/signIn", async (req, res) => {
+  const credentials = req.body;
+  const response = await Auth.authenticateUser(credentials);
+  res.status(response.statusCode).send(response);
+});
+
+app.post("/signUp", async (req, res) => {
+  const newUser = req.body;
+  const response = await Auth.createUser(newUser);
+  res.status(response.statusCode).send(response);
+});
+
 // TODO update endpoint to return type ApiResponse instead
 app.get("/quizQuestions", (req, res) => {
   setTimeout(() => {
@@ -33,7 +45,7 @@ app.get("/quizQuestions", (req, res) => {
     // res.json(questions);
 
     // TODO kinda ugly
-    const numberedQuestions: Question[] = questionData.map((q, i) => ({ ...q, number: i }));
+    const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
     const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
     const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
 
@@ -44,17 +56,5 @@ app.get("/quizQuestions", (req, res) => {
 app.post("/addQuizAttempt", async (req, res) => {
   const attempt = req.body;
   const response = await Quiz.addAttempt(attempt);
-  res.status(response.statusCode).send(response);
-});
-
-app.post("/signIn", async (req, res) => {
-  const credentials = req.body;
-  const response = await Auth.authenticateUser(credentials);
-  res.status(response.statusCode).send(response);
-});
-
-app.post("/signUp", async (req, res) => {
-  const newUser = req.body;
-  const response = await Auth.createUser(newUser);
   res.status(response.statusCode).send(response);
 });
