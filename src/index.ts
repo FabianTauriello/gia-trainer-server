@@ -1,6 +1,6 @@
 import express from "express";
 import questionData from "../data/questions.json";
-import { Question } from "./domain/Types.js";
+import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
 import { Quiz } from "./services/Quiz.js";
@@ -38,19 +38,19 @@ app.post("/signUp", async (req, res) => {
   res.status(response.statusCode).send(response);
 });
 
-// TODO update endpoint to return type ApiResponse instead
 app.get("/quizQuestions", (req, res) => {
-  setTimeout(() => {
-    // const questions: Question[] = questionData.map((q, i) => ({ number: i + 1, ...q }));
-    // res.json(questions);
+  // TODO kinda ugly
+  const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
+  const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
+  const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
+  const response: ApiResponse<Question[]> = {
+    success: true,
+    data: finalQuestions,
+    statusCode: 200,
+    message: "",
+  };
 
-    // TODO kinda ugly
-    const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
-    const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
-    const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
-
-    res.json(finalQuestions);
-  }, 1000);
+  res.status(response.statusCode).send(response);
 });
 
 app.post("/addQuizAttempt", async (req, res) => {

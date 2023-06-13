@@ -1,21 +1,6 @@
 import mysql, { ResultSetHeader } from "mysql2";
 import { ApiResponse, QuizAttempt } from "../domain/Types";
-import path from "path";
-import dotenv from "dotenv";
-
-dotenv.config({
-  path: path.join(__dirname, "..", "..", "..", ".env"),
-});
-
-// TODO export this connection pool from different module and use everywhere??
-const connectionPool = mysql
-  .createConnection({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
-  })
-  .promise();
+import { connectionPool } from "./DatabaseConnection";
 
 export namespace Quiz {
   export async function addAttempt(attempt: { userId: string; attempt: QuizAttempt }): Promise<ApiResponse<string>> {
