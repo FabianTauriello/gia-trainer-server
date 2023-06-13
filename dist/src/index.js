@@ -47,7 +47,6 @@ app.get("/quizQuestions", (req, res) => {
     }, 1000);
 });
 app.post("/addQuizAttempt", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("bod: ", req.body);
     const attempt = req.body;
     const response = yield Quiz_1.Quiz.addAttempt(attempt);
     res.status(response.statusCode).send(response);

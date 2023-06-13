@@ -42,7 +42,6 @@ app.get("/quizQuestions", (req, res) => {
 });
 
 app.post("/addQuizAttempt", async (req, res) => {
-  console.log("bod: ", req.body);
   const attempt = req.body;
   const response = await Quiz.addAttempt(attempt);
   res.status(response.statusCode).send(response);
