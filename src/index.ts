@@ -19,7 +19,7 @@ app.use((_req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`gia-trainer-server listening on port ${port}`);
 });
 
 app.get("/", (req, res) => {

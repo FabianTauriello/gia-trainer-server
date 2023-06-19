@@ -34,6 +34,6 @@ _Option 2:_
 
 ### Stack
 
-- **MySQL** for database management.
+- **MySQL** for database management (hosting with AWS RDS).
 - **bcrypt** for hashing passwords.
 - **jwt** for authenticaing requests that require verification.
