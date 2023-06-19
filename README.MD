@@ -21,6 +21,7 @@ mysql
 - [ ] consider adding dist folder to .gitIgnore
 - [ ] add tests for all API endpoints to postman
 - [ ] remove questions.json from git!!! answers are out there for public to see!
+- [ ] block public access to /quizQuestions (mayber provide a subset of all questions for visitors) because answers are leaked.
 
 ### DB Schemas
 
