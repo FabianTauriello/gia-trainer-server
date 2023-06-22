@@ -8,10 +8,10 @@ import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
 import { Quiz } from "./services/Quiz.js";
 
-const app = express();
-app.use(express.json());
 const port = 3001;
 
+const app = express();
+app.use(express.json());
 // TODO change this behaviour later. This is not recommended for production environments, as it may pose
 // security risks. It's better to restrict the origins that can access your API by specifying them explicitly.
 app.use((_req, res, next) => {
