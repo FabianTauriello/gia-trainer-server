@@ -1,6 +1,7 @@
 import express from "express";
 import questionData from "../data/questions.json";
 import fs from "fs";
+import path from "path";
 import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
@@ -28,7 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/.well-known/pki-validation/EBB39D234718665834EDC4C296ACFB79.txt", (req, res) => {
-  const filePath = "assets/EBB39D234718665834EDC4C296ACFB79.txt";
+  const filePath = path.join(__dirname, "..", "..", "assets", "EBB39D234718665834EDC4C296ACFB79.txt");
   const fileContent = fs.readFileSync(filePath, "utf8");
 
   res.setHeader("Content-Type", "text/plain");
