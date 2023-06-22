@@ -2,6 +2,7 @@ import express from "express";
 import questionData from "../data/questions.json";
 import fs from "fs";
 import path from "path";
+import https from "https";
 import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
@@ -20,21 +21,20 @@ app.use((_req, res, next) => {
   next();
 });
 
-app.listen(port, () => {
+// Read the SSL/TLS certificate and private key
+const privateKey = fs.readFileSync(path.join(__dirname, "..", "..", "ssl", "private.key"), "utf8");
+const certificate = fs.readFileSync(path.join(__dirname, "..", "..", "ssl", "certificate.crt"), "utf8");
+const credentials = { key: privateKey, cert: certificate };
+
+// Create an HTTPS server using the credentials
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(port, () => {
   console.log(`gia-trainer-server listening on port ${port}`);
 });
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");
-});
-
-app.get("/.well-known/pki-validation/EBB39D234718665834EDC4C296ACFB79.txt", (req, res) => {
-  const filePath = path.join(__dirname, "..", "..", "assets", "EBB39D234718665834EDC4C296ACFB79.txt");
-  const fileContent = fs.readFileSync(filePath, "utf8");
-
-  res.setHeader("Content-Type", "text/plain");
-
-  res.send(fileContent);
 });
 
 app.post("/signIn", async (req, res) => {

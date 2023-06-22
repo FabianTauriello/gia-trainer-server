@@ -20,7 +20,7 @@ mysql
 
 - [ ] consider adding dist folder to .gitIgnore
 - [ ] add tests for all API endpoints to postman
-- [ ] install and configure nginx for handling https requests from the vercel app, or try letsencrypt for generating a ssl/tls certificate
+- [ ] install and configure nginx for handling https requests from the vercel app, or try letsencrypt for generating a ssl/tls certificate. see this: https://betterprogramming.pub/setup-nginx-for-your-nodejs-server-on-ec2-ae46a3d0cb1b
 - [ ] remove questions.json from git!!! answers are out there for public to see!
 - [ ] block public access to /quizQuestions (mayber provide a subset of all questions for visitors) because answers are leaked.
 
@@ -42,4 +42,70 @@ _Option 2:_
 
 ### Connecting to server on AWS EC2 instance:
 
-- locate ssh file and use the command: `ssh -i "aws-key.pem" ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com`
+Locate ssh file and use the command:
+
+```
+ssh -i "aws-key.pem" ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com
+```
+
+### Important commands:
+
+Build TS to JS files for deployment
+
+```
+npm run build
+```
+
+Start server from inside dist folder
+
+```
+pm2 start index.js
+```
+
+Clear logs
+
+```
+pm2 flush
+```
+
+Stop process
+
+```
+pm2 delete
+```
+
+Connect to ec2 instance
+
+```
+ssh -i "aws-key.pem" ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com
+```
+
+List installed packages
+
+```
+apt list --installed
+```
+
+Restart nginx
+
+```
+sudo systemctl restart nginx
+```
+
+List port forwarding rules
+
+```
+sudo iptables -t nat --line-numbers -n -L
+```
+
+Remove port forwarding rule
+
+```
+sudo iptables -t nat -D PREROUTING <rule_number>
+```
+
+Add port forwarding rule
+
+```
+sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 5000
+```
