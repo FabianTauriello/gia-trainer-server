@@ -3,24 +3,33 @@ import questionData from "../data/questions.json";
 import fs from "fs";
 import path from "path";
 import https from "https";
+import cors from "cors";
 import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
 import { Quiz } from "./services/Quiz.js";
 
 const port = 3001;
+const httpPort = 3002;
 
 const app = express();
 app.use(express.json());
 // TODO change this behaviour later. This is not recommended for production environments, as it may pose
 // security risks. It's better to restrict the origins that can access your API by specifying them explicitly.
-app.use((_req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://gia-trainer.vercel.app/quiz");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// app.use((_req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "https://localhost:5173/");
+//   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
+app.use(
+  cors({
+    origin: ["https://gia-trainer.vercel.app/", "https://localhost:5173/"],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ["Origin", "Content-Type", "Authorization"],
+  })
+);
 
 // Read the SSL/TLS certificate and private key
 const privateKey = fs.readFileSync(path.join(__dirname, "..", "..", "ssl", "private.key"), "utf8");
@@ -32,6 +41,10 @@ const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(port, () => {
   console.log(`HTTPS gia-trainer-server listening on port ${port}`);
+});
+
+app.listen(httpPort, () => {
+  console.log(`HTTP gia-trainer-server listening on port ${httpPort}`);
 });
 
 app.get("/", (req, res) => {
@@ -51,7 +64,7 @@ app.post("/signUp", async (req, res) => {
 });
 
 app.get("/quizQuestions", (req, res) => {
-  // TODO kinda ugly
+  // TODO kinda ugly and missing trycatch
   const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
   const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
   const finalQuestions = sortedQuestions.map((q, i) => ({ ...q, number: i + 1 }));
