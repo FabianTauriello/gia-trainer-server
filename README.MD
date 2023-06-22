@@ -42,12 +42,6 @@ _Option 2:_
 
 ### Connecting to server on AWS EC2 instance:
 
-Locate ssh file and use the command:
-
-```
-ssh -i "aws-key.pem" ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com
-```
-
 ### Important commands:
 
 Build TS to JS files for deployment
@@ -108,4 +102,10 @@ Add port forwarding rule
 
 ```
 sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 5000
+```
+
+Transfer file to ec2 instance
+
+```
+scp -i <ssh_key_path> <sending_file_path> ubuntu@3.145.91.237:
 ```
