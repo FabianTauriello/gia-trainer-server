@@ -20,6 +20,7 @@ mysql
 
 - [ ] consider adding dist folder to .gitIgnore
 - [ ] add tests for all API endpoints to postman
+- [ ] install and configure nginx for handling https requests from the vercel app, or try letsencrypt for generating a ssl/tls certificate
 - [ ] remove questions.json from git!!! answers are out there for public to see!
 - [ ] block public access to /quizQuestions (mayber provide a subset of all questions for visitors) because answers are leaked.
 
@@ -38,3 +39,7 @@ _Option 2:_
 - **MySQL** for database management (hosting with AWS RDS).
 - **bcrypt** for hashing passwords.
 - **jwt** for authenticaing requests that require verification.
+
+### Connecting to server on AWS EC2 instance:
+
+- locate ssh file and use the command: `ssh -i "aws-key.pem" ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com`
