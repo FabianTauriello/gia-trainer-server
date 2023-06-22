@@ -15,7 +15,7 @@ app.use(express.json());
 // TODO change this behaviour later. This is not recommended for production environments, as it may pose
 // security risks. It's better to restrict the origins that can access your API by specifying them explicitly.
 app.use((_req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "https://gia-trainer.vercel.app");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Credentials", "true");
