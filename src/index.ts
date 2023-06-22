@@ -25,7 +25,7 @@ app.use(express.json());
 // });
 app.use(
   cors({
-    origin: ["https://gia-trainer.vercel.app/", "https://localhost:5173/"],
+    origin: ["https://gia-trainer.vercel.app", "https://localhost:5173"],
     methods: ["GET", "PUT", "POST", "DELETE"],
     allowedHeaders: ["Origin", "Content-Type", "Authorization"],
   })

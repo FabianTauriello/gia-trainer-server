@@ -71,7 +71,7 @@ pm2 delete
 Connect to ec2 instance
 
 ```
-ssh -i "aws-key.pem" ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com
+ssh -i aws-key.pem ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com
 ```
 
 List installed packages
