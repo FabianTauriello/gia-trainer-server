@@ -30,7 +30,7 @@ const credentials = { key: privateKey, cert: certificate };
 const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(port, () => {
-  console.log(`gia-trainer-server listening on port ${port}`);
+  console.log(`HTTPS gia-trainer-server listening on port ${port}`);
 });
 
 app.get("/", (req, res) => {
