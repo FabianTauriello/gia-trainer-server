@@ -86,6 +86,12 @@ Restart nginx
 sudo systemctl restart nginx
 ```
 
+OR
+
+```
+sudo service nginx reload
+```
+
 List port forwarding rules
 
 ```

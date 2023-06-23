@@ -1,10 +1,6 @@
 import mysql, { ResultSetHeader } from "mysql2";
-import dotenv from "dotenv";
 import path from "path";
-
-dotenv.config({
-  path: path.join(__dirname, "..", "..", "..", ".env"),
-});
+import dotenv from "dotenv";
 
 // TODO export this connection pool from different module and use everywhere??
 export const connectionPool = mysql
