@@ -39,6 +39,9 @@ _Option 2:_
 - **MySQL** for database management (hosting with AWS RDS).
 - **bcrypt** for hashing passwords.
 - **jwt** for authenticaing requests that require verification.
+- **Zerossl** for ssl certification generation
+- **express js** for serving api
+- **nginx** for being the reverse proxy
 
 ### Connecting to server on AWS EC2 instance:
 
