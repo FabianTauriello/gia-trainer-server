@@ -61,7 +61,6 @@ app.post("/signUp", async (req, res) => {
 });
 
 app.get("/quizQuestions", (req, res) => {
-  console.log("calling");
   // TODO kinda ugly and missing trycatch
   const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
   const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
