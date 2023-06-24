@@ -20,7 +20,7 @@ if (process.env.ENV === "dev") {
     cors({
       origin: "*",
       methods: ["GET", "PUT", "POST", "DELETE"],
-      allowedHeaders: ["Origin", "Content-Type", "Authorization"],
+      allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
     })
   );
 }
