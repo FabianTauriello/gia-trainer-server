@@ -147,8 +147,10 @@ scp -i <ssh_key_path> <sending_file_path> ubuntu@3.145.91.237:
 
 ### Alias Commands
 
+Pull changes from remote repo:
+
 ```
-open_nginx_config_gt
+pull_gts
 ```
 
 ```
