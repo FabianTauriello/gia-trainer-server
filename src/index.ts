@@ -10,12 +10,15 @@ import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
 import { Quiz } from "./services/Quiz.js";
 
-const app = express();
+const PORT_HTTP = 3001;
+const PORT_HTTPS = 3002;
 
+const app = express();
 app.use(express.json());
 
-// Enable CORS only during development
-if (process.env.ENV === "dev") {
+// Setup server based on evironment
+// process.env.ENV === "dev"
+if (true) {
   app.use(
     cors({
       origin: "*",
@@ -23,26 +26,23 @@ if (process.env.ENV === "dev") {
       allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
     })
   );
+
+  app.listen(PORT_HTTP, () => {
+    console.log(`HTTP gia-trainer-server listening on port ${PORT_HTTP}`);
+  });
+} else {
+  // Read the SSL/TLS certificate and private key
+  const privateKey = fs.readFileSync(path.join(__dirname, process.env.SSL_FOLDER_PATH!, "private.key"), "utf8");
+  const certificate = fs.readFileSync(path.join(__dirname, process.env.SSL_FOLDER_PATH!, "certificate.crt"), "utf8");
+  const credentials = { key: privateKey, cert: certificate };
+
+  // Create an HTTPS server using the credentials
+  const httpsServer = https.createServer(credentials, app);
+
+  httpsServer.listen(PORT_HTTPS, () => {
+    console.log(`HTTPS gia-trainer-server listening on port ${PORT_HTTPS}`);
+  });
 }
-
-const httpPort = 3001;
-const httpsPort = 3002;
-
-// Read the SSL/TLS certificate and private key
-const privateKey = fs.readFileSync(path.join(__dirname, process.env.SSL_FOLDER_PATH!, "private.key"), "utf8");
-const certificate = fs.readFileSync(path.join(__dirname, process.env.SSL_FOLDER_PATH!, "certificate.crt"), "utf8");
-const credentials = { key: privateKey, cert: certificate };
-
-// Create an HTTPS server using the credentials
-const httpsServer = https.createServer(credentials, app);
-
-app.listen(httpPort, () => {
-  console.log(`HTTP gia-trainer-server listening on port ${httpPort}`);
-});
-
-httpsServer.listen(httpsPort, () => {
-  console.log(`HTTPS gia-trainer-server listening on port ${httpsPort}`);
-});
 
 app.get("/", (req, res) => {
   res.send("Hello World!!");

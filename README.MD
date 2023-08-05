@@ -47,6 +47,14 @@ _Option 2:_
 
 ### Important commands:
 
+Open bash config file
+
+```
+sudo vim ~/.bashrc
+```
+
+Make sure to reload the configuration with `source ~/.bashrc` after saving any changes.
+
 Build TS to JS files for deployment
 
 ```
@@ -57,6 +65,18 @@ Start server from inside dist folder
 
 ```
 pm2 start index.js
+```
+
+See the error logs for all processes
+
+```
+pm2 logs
+```
+
+See the error logs for a specific process
+
+```
+pm2 logs <process_name_or_id> --error
 ```
 
 Clear logs
@@ -74,7 +94,7 @@ pm2 delete
 Connect to ec2 instance
 
 ```
-ssh -i aws-key.pem ubuntu@ec2-3-145-91-237.us-east-2.compute.amazonaws.com
+ssh -i "aws-key.pem" ec2-user@ec2-13-40-222-178.eu-west-2.compute.amazonaws.com
 ```
 
 List installed packages
@@ -89,10 +109,16 @@ Restart nginx
 sudo systemctl restart nginx
 ```
 
-OR
+Get nginx error log
 
 ```
-sudo service nginx reload
+sudo tail -f /var/log/nginx/error.log
+```
+
+Test nginx config file is valid
+
+```
+sudo nginx -t
 ```
 
 List port forwarding rules
@@ -117,4 +143,22 @@ Transfer file to ec2 instance
 
 ```
 scp -i <ssh_key_path> <sending_file_path> ubuntu@3.145.91.237:
+```
+
+### Alias Commands
+
+```
+open_nginx_config_gt
+```
+
+```
+nginx_reload
+```
+
+```
+build_web_server_gt
+```
+
+```
+start_web_server_gt
 ```
