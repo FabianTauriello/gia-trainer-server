@@ -31,12 +31,12 @@ if (process.env.ENV === "dev") {
   });
 } else {
   // Read the SSL/TLS certificate and private key
-  const privateKey = fs.readFileSync(path.join(__dirname, process.env.SSL_FOLDER_PATH!, "private.key"), "utf8");
-  const certificate = fs.readFileSync(path.join(__dirname, process.env.SSL_FOLDER_PATH!, "certificate.crt"), "utf8");
-  const credentials = { key: privateKey, cert: certificate };
+  const privateKey = fs.readFileSync("/etc/letsencrypt/live/gia-trainer.com/privkey.pem");
+  const certificate = fs.readFileSync("/etc/letsencrypt/live/gia-trainer.com/fullchain.pem");
+  const options = { key: privateKey, cert: certificate };
 
-  // Create an HTTPS server using the credentials
-  const httpsServer = https.createServer(credentials, app);
+  // Create an HTTPS server using the options
+  const httpsServer = https.createServer(options, app);
 
   httpsServer.listen(PORT_HTTPS, () => {
     console.log(`gia-trainer-server listening on port ${PORT_HTTPS}`);
