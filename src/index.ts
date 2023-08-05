@@ -17,8 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Setup server based on evironment
-// process.env.ENV === "dev"
-if (true) {
+if (process.env.ENV === "dev") {
   app.use(
     cors({
       origin: "*",

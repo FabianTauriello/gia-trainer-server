@@ -41,78 +41,64 @@ _Option 2:_
 - **jwt** for authenticaing requests that require verification.
 - **Zerossl** for ssl certification generation
 - **express js** for serving api
-- **nginx** for being the reverse proxy
+- **nginx** for actings as the reverse proxy
 
 ### Connecting to server on AWS EC2 instance:
 
+### Domain registerd for this server:
+
+gia-trainer.com
+
 ### Important commands:
 
-Connect to ec2 instance
+Connect to ec2 instance:
 
 ```
 ssh -i ~/Desktop/ssh/aws-key.pem ec2-user@ec2-13-40-222-178.eu-west-2.compute.amazonaws.com
 ```
 
-Open bash config file
+Open bash config file:
 
 ```
 sudo vim ~/.bashrc
 ```
 
-Make sure to reload the configuration with `source ~/.bashrc` after saving any changes.
+_Make sure to reload the configuration with `source ~/.bashrc` after saving any changes._
 
-Build TS to JS files for deployment
-
-```
-npm run build
-```
-
-List installed packages
+Get status of nginx:
 
 ```
-apt list --installed
+sudo systemctl status nginx
 ```
 
-Restart nginx
+Restart nginx:
 
 ```
 sudo systemctl restart nginx
 ```
 
-Get nginx error log
+Get nginx error log:
 
 ```
 sudo tail -f /var/log/nginx/error.log
 ```
 
-Test nginx config file is valid
+Get systemd logs (for viewing server console logs):
+
+```
+sudo cat /var/log/messages
+```
+
+Test nginx config file is valid:
 
 ```
 sudo nginx -t
 ```
 
-List port forwarding rules
+Transfer file to ec2 instance:
 
 ```
-sudo iptables -t nat --line-numbers -n -L
-```
-
-Remove port forwarding rule
-
-```
-sudo iptables -t nat -D PREROUTING <rule_number>
-```
-
-Add port forwarding rule
-
-```
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 5000
-```
-
-Transfer file to ec2 instance
-
-```
-scp -i <ssh_key_path> <sending_file_path> ubuntu@3.145.91.237:
+scp -i ~/Desktop/ssh/aws-key.pem <sending_file_path> ec2-user@ec2-13-40-222-178.eu-west-2.compute.amazonaws.com
 ```
 
 ### Alias Commands
@@ -121,4 +107,28 @@ Pull changes from remote repo:
 
 ```
 pull_gts
+```
+
+Build server:
+
+```
+build_gts
+```
+
+Edit nginx config file:
+
+```
+edit_nginx
+```
+
+Edit bash config file (for changing aliases):
+
+```
+edit_bash
+```
+
+Show systemd logs:
+
+```
+show_logs
 ```
