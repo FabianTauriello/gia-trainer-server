@@ -22,8 +22,7 @@ TRUNCATE user
 
 -- @block
 INSERT INTO user VALUES 
-    (1, 'fabian@mail.com', 'password1', 'Fabian', 'T'), 
-    (2, 'jeremy@mail.com', 'password2', 'Jeremy', 'Smith');
+    (1, 'fabian-dev@mail.com', 'password1', 'Fabian', 'T');
 
 -- @block
 DELETE FROM user WHERE id = "1";
@@ -100,6 +99,9 @@ ALTER TABLE answer
 DROP FOREIGN KEY quizAttemptId;
 
 -- ------------------------------------- GENERAL QUERIES -------------------------------------
+
+-- @block
+CREATE DATABASE gia_trainer;
 
 -- @block
 USE gia_trainer;

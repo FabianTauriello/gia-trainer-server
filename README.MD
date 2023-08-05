@@ -47,6 +47,12 @@ _Option 2:_
 
 ### Important commands:
 
+Connect to ec2 instance
+
+```
+ssh -i ~/Desktop/ssh/aws-key.pem ec2-user@ec2-13-40-222-178.eu-west-2.compute.amazonaws.com
+```
+
 Open bash config file
 
 ```
@@ -59,42 +65,6 @@ Build TS to JS files for deployment
 
 ```
 npm run build
-```
-
-Start server from inside dist folder
-
-```
-pm2 start index.js
-```
-
-See the error logs for all processes
-
-```
-pm2 logs
-```
-
-See the error logs for a specific process
-
-```
-pm2 logs <process_name_or_id> --error
-```
-
-Clear logs
-
-```
-pm2 flush
-```
-
-Stop process
-
-```
-pm2 delete
-```
-
-Connect to ec2 instance
-
-```
-ssh -i "aws-key.pem" ec2-user@ec2-13-40-222-178.eu-west-2.compute.amazonaws.com
 ```
 
 List installed packages
@@ -151,16 +121,4 @@ Pull changes from remote repo:
 
 ```
 pull_gts
-```
-
-```
-nginx_reload
-```
-
-```
-build_web_server_gt
-```
-
-```
-start_web_server_gt
 ```
