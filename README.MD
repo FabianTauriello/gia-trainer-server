@@ -39,7 +39,7 @@ _Option 2:_
 - **MySQL** for database management (hosting with AWS RDS).
 - **bcrypt** for hashing passwords.
 - **jwt** for authenticaing requests that require verification.
-- **Zerossl** for ssl certification generation
+- **Let's Encrypt** for ssl certification generation via certbot
 - **express js** for serving api
 - **nginx** for actings as the reverse proxy
 
