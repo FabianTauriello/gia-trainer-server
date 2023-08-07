@@ -13,19 +13,18 @@ import { Quiz } from "./services/Quiz.js";
 const PORT_HTTP = 3001; // TODO set in .env file instead of here
 const PORT_HTTPS = 3002; // TODO set in .env file instead of here
 
-const app = express();
-app.use(express.json());
-
-// Setup server based on evironment
-if (process.env.ENV === "dev") {
-  app.use(
+const app = express()
+  .use(express.json())
+  .use(
     cors({
-      origin: "*",
+      origin: ["http://localhost:5173", "https://gia-trainer.vercel.app"],
       methods: ["GET", "PUT", "POST", "DELETE"],
       allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
     })
   );
 
+// Setup server based on evironment
+if (process.env.ENV === "dev") {
   app.listen(PORT_HTTP, () => {
     console.log(`gia-trainer-server listening on port ${PORT_HTTP}`);
   });
