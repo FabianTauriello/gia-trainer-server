@@ -2,7 +2,6 @@ import "dotenv/config";
 import express from "express";
 import questionData from "../data/questions.json";
 import fs from "fs";
-import path from "path";
 import https from "https";
 import cors from "cors";
 import { ApiResponse, Question } from "./domain/Types.js";
@@ -17,7 +16,7 @@ const app = express()
   .use(express.json())
   .use(
     cors({
-      origin: ["http://localhost:5173", "https://gia-trainer.vercel.app"],
+      origin: ["http://localhost:5173/", "https://gia-trainer.vercel.app/"],
       methods: ["GET", "PUT", "POST", "DELETE"],
       allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
     })
