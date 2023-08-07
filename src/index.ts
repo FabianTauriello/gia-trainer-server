@@ -9,8 +9,7 @@ import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
 import { Quiz } from "./services/Quiz.js";
 
-const PORT_HTTP = 3001; // TODO set in .env file instead of here
-const PORT_HTTPS = 3002; // TODO set in .env file instead of here
+const PORT = 3001;
 
 const app = express()
   .use(express.json())
@@ -24,8 +23,8 @@ const app = express()
 
 // Setup server based on evironment
 if (process.env.ENV === "dev") {
-  app.listen(PORT_HTTP, () => {
-    console.log(`gia-trainer-server listening on port ${PORT_HTTP}`);
+  app.listen(PORT, () => {
+    console.log(`gia-trainer-server listening on port ${PORT}`);
   });
 } else {
   // Read the SSL/TLS certificate and private key
@@ -36,8 +35,8 @@ if (process.env.ENV === "dev") {
   // Create an HTTPS server using the options
   const httpsServer = https.createServer(options, app);
 
-  httpsServer.listen(PORT_HTTPS, () => {
-    console.log(`gia-trainer-server listening on port ${PORT_HTTPS}`);
+  httpsServer.listen(PORT, () => {
+    console.log(`gia-trainer-server listening on port ${PORT}`);
   });
 }
 
