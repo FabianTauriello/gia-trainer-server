@@ -7,10 +7,8 @@ export namespace Quiz {
   // Returns the id of the new quiz attempt
   export async function addAttempt(userId: string, attempt: QuizAttempt): Promise<ApiResponse<string>> {
     try {
-      console.log("Adding quiz attempt: ", attempt);
       const query = `INSERT INTO quizAttempt (userId, totalScore) VALUES (?, ?)`;
       const [result] = await connectionPool.query<ResultSetHeader>(query, [userId, attempt.totalScore]);
-      console.log("result: ", result);
 
       if (result.affectedRows > 0) {
         const newQuizAttemptId = result.insertId.toString();

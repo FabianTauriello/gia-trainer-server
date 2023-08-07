@@ -41,22 +41,30 @@ if (process.env.ENV === "dev") {
 }
 
 app.get("/", (req, res) => {
+  console.log("saying hello");
+
   res.send("Hello World!!");
 });
 
 app.post("/signIn", async (req, res) => {
+  console.log("signing in");
+
   const credentials = req.body;
   const response = await Auth.authenticateUser(credentials);
   res.status(response.statusCode).send(response);
 });
 
 app.post("/signUp", async (req, res) => {
+  console.log("signing up");
+
   const newUser = req.body;
   const response = await Auth.createUser(newUser);
   res.status(response.statusCode).send(response);
 });
 
 app.get("/quizQuestions", (req, res) => {
+  console.log("getting quiz questions");
+
   // TODO kinda ugly and missing trycatch
   const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
   const sortedQuestions = Utils.sortQuestionsByCategory(numberedQuestions);
@@ -72,6 +80,8 @@ app.get("/quizQuestions", (req, res) => {
 });
 
 app.post("/addQuizAttempt", async (req, res) => {
+  console.log("adding quiz attempt");
+
   const { userId, attempt } = req.body;
   const response = await Quiz.addAttempt(userId, attempt);
   res.status(response.statusCode).send(response);
