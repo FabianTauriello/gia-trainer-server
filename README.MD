@@ -115,6 +115,12 @@ Build server:
 build_gts
 ```
 
+Restart server:
+
+```
+reload_gts
+```
+
 Edit nginx config file:
 
 ```
@@ -125,6 +131,12 @@ Edit bash config file (for changing aliases):
 
 ```
 edit_bash
+```
+
+Reload bash config file:
+
+```
+reload_bash
 ```
 
 Show systemd logs:
