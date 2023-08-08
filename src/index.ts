@@ -20,7 +20,7 @@ app.use(
   })
 );
 app.use(express.json());
-app.options("*", cors()); // allows preflight requests for all routes
+app.options(["http://localhost:5173/", "https://gia-trainer.vercel.app/"], cors()); // allows preflight requests
 
 // Setup http/https server based on evironment
 if (process.env.ENV === "dev") {
