@@ -23,6 +23,7 @@ mysql
 - [ ] install and configure nginx for handling https requests from the vercel app, or try letsencrypt for generating a ssl/tls certificate. see this: https://betterprogramming.pub/setup-nginx-for-your-nodejs-server-on-ec2-ae46a3d0cb1b
 - [ ] remove questions.json from git!!! answers are out there for public to see!
 - [ ] block public access to /quizQuestions (mayber provide a subset of all questions for visitors) because answers are leaked.
+- [ ] creat gia_trainer specific user in prod version of mysql database (use gia_trainer_prod syntax)
 
 ### DB Schemas
 

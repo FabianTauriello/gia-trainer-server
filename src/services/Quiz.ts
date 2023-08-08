@@ -1,4 +1,4 @@
-import mysql, { ResultSetHeader } from "mysql2";
+import { ResultSetHeader } from "mysql2";
 import { ApiResponse, QuizAttempt } from "../domain/Types";
 import { connectionPool } from "./DatabaseConnection";
 

@@ -114,3 +114,4 @@ SHOW DATABASES;
 
 -- @block
 SHOW TABLES;
+

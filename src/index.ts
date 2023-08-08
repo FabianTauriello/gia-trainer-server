@@ -13,6 +13,7 @@ const PORT = 3001;
 
 const app = express()
   .use(express.json())
+  .options("*", cors()) // allows preflight requests for all routes
   .use(
     cors({
       origin: ["http://localhost:5173/", "https://gia-trainer.vercel.app/"],
@@ -21,10 +22,10 @@ const app = express()
     })
   );
 
-// Setup server based on evironment
+// Setup http/https server based on evironment
 if (process.env.ENV === "dev") {
   app.listen(PORT, () => {
-    console.log(`gia-trainer-server listening on port ${PORT}`);
+    console.log(`gia-trainer-server listening on port ${PORT} with HTTP`);
   });
 } else {
   // Read the SSL/TLS certificate and private key
@@ -32,11 +33,10 @@ if (process.env.ENV === "dev") {
   const certificate = fs.readFileSync("/etc/letsencrypt/live/gia-trainer.com/fullchain.pem");
   const options = { key: privateKey, cert: certificate };
 
-  // Create an HTTPS server using the options
   const httpsServer = https.createServer(options, app);
 
   httpsServer.listen(PORT, () => {
-    console.log(`gia-trainer-server listening on port ${PORT}`);
+    console.log(`gia-trainer-server listening on port ${PORT} with HTTPS`);
   });
 }
 
