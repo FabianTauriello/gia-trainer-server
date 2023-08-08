@@ -11,16 +11,16 @@ import { Quiz } from "./services/Quiz.js";
 
 const PORT = 3001;
 
-const app = express()
-  .use(express.json())
-  .options("*", cors()) // allows preflight requests for all routes
-  .use(
-    cors({
-      origin: ["http://localhost:5173/", "https://gia-trainer.vercel.app/"],
-      methods: ["GET", "PUT", "POST", "DELETE"],
-      allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
-    })
-  );
+const app = express();
+app.use(
+  cors({
+    origin: ["http://localhost:5173/", "https://gia-trainer.vercel.app/"],
+    methods: ["GET", "PUT", "POST", "DELETE"],
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+  })
+);
+app.use(express.json());
+app.options("*", cors()); // allows preflight requests for all routes
 
 // Setup http/https server based on evironment
 if (process.env.ENV === "dev") {
