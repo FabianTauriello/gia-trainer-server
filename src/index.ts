@@ -21,7 +21,7 @@ const corsOptions: CorsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.options(["*"], cors(corsOptions)); // allows OPTIONS/preflight requests from any origin, for all routes
+// app.options(["*"], cors(corsOptions)); // allows OPTIONS/preflight requests from any origin, for all routes
 
 // Setup http/https server based on evironment
 if (process.env.ENV === "dev") {
