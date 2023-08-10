@@ -2,7 +2,7 @@ import { ResultSetHeader } from "mysql2";
 import { ApiResponse, QuizAttempt } from "../domain/Types";
 import { connectionPool } from "./DatabaseConnection";
 
-export namespace Quiz {
+export namespace QuizHandler {
   // TODO change to user multiple queries at the same time (instead of sequentially adding an attempt, and THEN answers)
   // Returns the id of the new quiz attempt
   export async function addAttempt(userId: string, attempt: QuizAttempt): Promise<ApiResponse<string>> {

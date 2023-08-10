@@ -7,26 +7,24 @@ import cors from "cors";
 import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
-import { Quiz } from "./services/Quiz.js";
+import { QuizHandler } from "./services/QuizHandler.js";
 
 const PORT = 3001;
 
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173/", "https://gia-trainer.vercel.app/"],
+    origin: ["http://localhost:5173", "https://gia-trainer.vercel.app"],
     methods: ["GET", "PUT", "POST", "DELETE"],
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
   })
 );
 app.use(express.json());
-app.options(["http://localhost:5173/", "https://gia-trainer.vercel.app/"], cors()); // allows preflight requests
+app.options(["http://localhost:5173", "https://gia-trainer.vercel.app"], cors()); // allows preflight requests
 
 // Setup http/https server based on evironment
 if (process.env.ENV === "dev") {
-  app.listen(PORT, () => {
-    console.log(`gia-trainer-server listening on port ${PORT} with HTTP`);
-  });
+  app.listen(PORT, () => console.log(`gia-trainer-server listening on port ${PORT} with HTTP`));
 } else {
   // Read the SSL/TLS certificate and private key
   const privateKey = fs.readFileSync("/etc/letsencrypt/live/gia-trainer.com/privkey.pem");
@@ -35,9 +33,7 @@ if (process.env.ENV === "dev") {
 
   const httpsServer = https.createServer(options, app);
 
-  httpsServer.listen(PORT, () => {
-    console.log(`gia-trainer-server listening on port ${PORT} with HTTPS`);
-  });
+  httpsServer.listen(PORT, () => console.log(`gia-trainer-server listening on port ${PORT} with HTTPS`));
 }
 
 app.get("/", (req, res) => {
@@ -83,6 +79,6 @@ app.post("/addQuizAttempt", async (req, res) => {
   console.log("adding quiz attempt");
 
   const { userId, attempt } = req.body;
-  const response = await Quiz.addAttempt(userId, attempt);
+  const response = await QuizHandler.addAttempt(userId, attempt);
   res.status(response.statusCode).send(response);
 });
