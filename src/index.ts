@@ -3,7 +3,7 @@ import express from "express";
 import questionData from "../data/questions.json";
 import fs from "fs";
 import https from "https";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
@@ -12,15 +12,16 @@ import { QuizHandler } from "./services/QuizHandler.js";
 const PORT = 3001;
 
 const app = express();
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://gia-trainer.vercel.app"],
-    methods: ["GET", "PUT", "POST", "DELETE"],
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
-  })
-);
+
+const corsOptions: CorsOptions = {
+  origin: ["http://localhost:5173", "https://gia-trainer.vercel.app"],
+  methods: ["GET", "PUT", "POST", "DELETE"],
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.options(["http://localhost:5173", "https://gia-trainer.vercel.app"], cors()); // allows preflight requests
+app.options(["*"], cors(corsOptions)); // allows OPTIONS/preflight requests from any origin, for all routes
 
 // Setup http/https server based on evironment
 if (process.env.ENV === "dev") {
