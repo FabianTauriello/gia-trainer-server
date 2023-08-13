@@ -16,15 +16,6 @@ mysql -u root -p
 mysql
 ```
 
-### TODOs:
-
-- [ ] consider adding dist folder to .gitIgnore
-- [ ] add tests for all API endpoints to postman
-- [ ] install and configure nginx for handling https requests from the vercel app, or try letsencrypt for generating a ssl/tls certificate. see this: https://betterprogramming.pub/setup-nginx-for-your-nodejs-server-on-ec2-ae46a3d0cb1b
-- [ ] remove questions.json from git!!! answers are out there for public to see!
-- [ ] block public access to /quizQuestions (mayber provide a subset of all questions for visitors) because answers are leaked.
-- [ ] creat gia_trainer specific user in prod version of mysql database (use gia_trainer_prod syntax)
-
 ### DB Schemas
 
 The following diagrams illustrate two options for storing app data, specifically quiz attempt data. I have chosen to adopt **option 2** because of it's simplicity. However, if querying/indexing or data integrity and validation are issues, migrating to **option 1** should be considered.

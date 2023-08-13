@@ -34,7 +34,7 @@ export type User = {
 
 export type UserDataRow = User & RowDataPacket;
 
-export type SanitizedUser = Omit<User, "email" | "password">;
+export type SanitizedUser = Omit<User, "password">;
 
 export type LoginCredentials = {
   email: string;

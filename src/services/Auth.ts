@@ -26,10 +26,10 @@ export namespace Auth {
         const user = usersFound.data[0];
         const match = await bcrypt.compare(credentials.password, user.password);
         if (match) {
-          // valid user, generate JWT token // TODO make sure different keys are being used for different environments (dev/staging/prod)
+          // valid user, generate JWT token
           const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
           // remove email and password before returning user
-          const { email, password, ...userWithoutPassword } = user;
+          const { password, ...userWithoutPassword } = user;
           return {
             success: true,
             data: {
