@@ -16,14 +16,8 @@ mysql -u root -p
 mysql
 ```
 
-### DB Schemas
+### DB Design
 
-The following diagrams illustrate two options for storing app data, specifically quiz attempt data. I have chosen to adopt **option 2** because of it's simplicity. However, if querying/indexing or data integrity and validation are issues, migrating to **option 1** should be considered.
-
-_Option 1:_
-![schema 1](assets/schema-1.png "Title")
-
-_Option 2:_
 ![schema 2](assets/schema-2.png "Title")
 
 ### Stack
