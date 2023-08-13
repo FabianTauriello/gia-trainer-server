@@ -7,24 +7,22 @@ export namespace QuizHandler {
   // Returns the id of the new quiz attempt
   export async function addAttempt(userId: string, attempt: QuizAttempt): Promise<ApiResponse<string>> {
     try {
-      const query = `INSERT INTO quizAttempt (userId, totalScore) VALUES (?, ?)`;
+      const query = "INSERT INTO quizAttempt (userId, totalScore) VALUES (?, ?)";
       const [result] = await connectionPool.query<ResultSetHeader>(query, [userId, attempt.totalScore]);
 
-      if (result.affectedRows > 0) {
-        const newQuizAttemptId = result.insertId.toString();
-        const res = await addAnswers(newQuizAttemptId, attempt);
-        if (res.success) {
-          return {
-            success: true,
-            data: newQuizAttemptId,
-            statusCode: 201,
-            message: "Successfully added new attempt",
-          };
-        } else {
-          return res;
-        }
+      if (result.affectedRows === 0) throw "couldn't insert new attempt";
+
+      const newQuizAttemptId = result.insertId.toString();
+      const res = await addAnswers(newQuizAttemptId, attempt);
+      if (res.success) {
+        return {
+          success: true,
+          data: newQuizAttemptId,
+          statusCode: 201,
+          message: "Successfully added new attempt",
+        };
       } else {
-        throw "couldn't insert new attempt";
+        return res;
       }
     } catch (error) {
       return {
@@ -38,7 +36,7 @@ export namespace QuizHandler {
   export async function addAnswers(quizAttemptId: string, attempt: QuizAttempt): Promise<ApiResponse<string>> {
     const rows = attempt.questions.map(item => [quizAttemptId, JSON.stringify(item)]);
 
-    const query = `INSERT INTO answer (quizAttemptId, question) VALUES ?`;
+    const query = "INSERT INTO answer (quizAttemptId, question) VALUES ?";
     const [result] = await connectionPool.query<ResultSetHeader>(query, [rows]);
 
     if (result.affectedRows > 0) {

@@ -8,6 +8,9 @@ import { ApiResponse, Question } from "./domain/Types.js";
 import { Auth } from "./services/Auth.js";
 import { Utils } from "./utils/Utils.js";
 import { QuizHandler } from "./services/QuizHandler.js";
+import { UserManagement } from "./services/UserManagement";
+import passport from "passport";
+import { ExtractJwt, Strategy } from "passport-jwt";
 
 const PORT = 3001;
 
@@ -36,6 +39,24 @@ if (process.env.ENV === "dev") {
 
   httpsServer.listen(PORT, () => console.log(`gia-trainer-server listening on port ${PORT} with HTTPS`));
 }
+
+// Configure passport middleware
+passport.use(
+  new Strategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET_KEY,
+    },
+    (jwtPayload, done) => {
+      // TODO
+      // You can perform additional checks here, e.g., validate user's roles, permissions
+      // For simplicity, assuming token is valid
+      return done(null, jwtPayload);
+    }
+  )
+);
+
+// ------------------------------------- ROUTES -------------------------------------
 
 app.get("/", (req, res) => {
   console.log("saying hello");
@@ -76,10 +97,20 @@ app.get("/quizQuestions", (req, res) => {
   res.status(response.statusCode).send(response);
 });
 
-app.post("/addQuizAttempt", async (req, res) => {
+// ------------------------------------- PROTECTED ROUTES -------------------------------------
+
+app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("adding quiz attempt");
 
   const { userId, attempt } = req.body;
   const response = await QuizHandler.addAttempt(userId, attempt);
+  res.status(response.statusCode).send(response);
+});
+
+app.post("/updateUser", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  console.log("updating user");
+
+  const newUser = req.body;
+  const response = await UserManagement.updateUser(newUser);
   res.status(response.statusCode).send(response);
 });

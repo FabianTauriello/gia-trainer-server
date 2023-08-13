@@ -44,6 +44,7 @@ export type LoginCredentials = {
 // Response codes:
 // 200 OK
 // 201 Created
+// 204 No Content
 // 400 Bad Request
 // 409 Conflict
 // 500 Internal Server Error
@@ -52,6 +53,6 @@ export type ApiResponse<T = null> = {
   // TODO might not need success prop. can just use data prop for success calls?
   success: boolean;
   data?: T;
-  statusCode: 200 | 201 | 400 | 401 | 409 | 500;
+  statusCode: 200 | 201 | 204 | 400 | 401 | 409 | 500;
   message: string;
 };

@@ -22,35 +22,34 @@ export namespace Auth {
       // check if user exists and password is valid
       const usersFound = await selectUser("email", credentials.email);
       if (!usersFound.success) throw "unable to retrieve user"; // TODO throw nothing
-      if (usersFound.data?.length) {
-        const user = usersFound.data[0];
-        const match = await bcrypt.compare(credentials.password, user.password);
-        if (match) {
-          // valid user, generate JWT token
-          const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
-          // remove email and password before returning user
-          const { password, ...userWithoutPassword } = user;
-          return {
-            success: true,
-            data: {
-              user: userWithoutPassword,
-              token: token,
-            },
-            statusCode: 200,
-            message: "",
-          };
-        } else {
-          return {
-            success: false,
-            statusCode: 401,
-            message: "Failed to sign in: password is incorrect",
-          };
-        }
-      } else {
+      if (!usersFound.data?.length) {
         return {
           success: false,
           statusCode: 401,
           message: "Failed to sign in: unable to find user",
+        };
+      }
+      const user = usersFound.data[0];
+      const match = await bcrypt.compare(credentials.password, user.password);
+      if (match) {
+        // valid user, generate JWT token
+        const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
+        // remove email and password before returning user
+        const { password, ...userWithoutPassword } = user;
+        return {
+          success: true,
+          data: {
+            user: userWithoutPassword,
+            token: token,
+          },
+          statusCode: 200,
+          message: "",
+        };
+      } else {
+        return {
+          success: false,
+          statusCode: 401,
+          message: "Failed to sign in: password is incorrect",
         };
       }
     } catch (error) {
