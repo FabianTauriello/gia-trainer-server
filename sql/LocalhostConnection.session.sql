@@ -98,6 +98,33 @@ DROP TABLE answer;
 ALTER TABLE answer
 DROP FOREIGN KEY quizAttemptId;
 
+-- ------------------------------------- SETTINGS TABLE QUERIES -------------------------------------
+
+-- @block
+CREATE TABLE settings (
+   id INT NOT NULL AUTO_INCREMENT,
+   quizAttemptId INT NOT NULL,
+   question JSON NOT NULL,
+   FOREIGN KEY (quizAttemptId) REFERENCES quizAttempt(id),
+   PRIMARY KEY (id)
+);
+
+-- @block
+SELECT * FROM answer;
+
+-- @block
+TRUNCATE answer;
+
+-- @block
+INSERT INTO answer (quizAttemptId, question) VALUES (14, '"{a:1, b:2}"'), (14, '"{a:1, b:2}"');
+
+-- @block
+DROP TABLE answer;
+
+-- @block
+ALTER TABLE answer
+DROP FOREIGN KEY quizAttemptId;
+
 -- ------------------------------------- GENERAL QUERIES -------------------------------------
 
 -- @block
