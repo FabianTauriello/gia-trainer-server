@@ -56,7 +56,7 @@ passport.use(
   )
 );
 
-// ------------------------------------- ROUTES -------------------------------------
+// ------------------------------------- PUBLIC ROUTES -------------------------------------
 
 app.get("/", (req, res) => {
   console.log("saying hello");
@@ -69,7 +69,7 @@ app.post("/signIn", async (req, res) => {
 
   const credentials = req.body;
   const response = await Auth.authenticateUser(credentials);
-  res.status(response.statusCode).send(response);
+  return res.status(response.statusCode).send(response);
 });
 
 app.post("/signUp", async (req, res) => {
@@ -112,5 +112,13 @@ app.post("/updateUser", passport.authenticate("jwt", { session: false }), async 
 
   const newUser = req.body;
   const response = await UserManagement.updateUser(newUser);
+  res.status(response.statusCode).send(response);
+});
+
+app.get("/getUserSettings", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  console.log("getting user settings");
+  const { userId } = req.body;
+
+  const response = await UserManagement.getUserSettings(userId);
   res.status(response.statusCode).send(response);
 });

@@ -41,6 +41,14 @@ export type LoginCredentials = {
   password: string;
 };
 
+export type Settings = {
+  darkMode: boolean;
+  exposeName: boolean;
+  showQuizTimer: boolean;
+  profileImageId: string;
+  profileImageColour: String;
+};
+
 // Response codes:
 // 200 OK
 // 201 Created

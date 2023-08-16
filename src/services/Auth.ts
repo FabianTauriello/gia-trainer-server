@@ -91,16 +91,13 @@ export namespace Auth {
         newUser.firstName,
         newUser.lastName,
       ]);
-      if (result.affectedRows > 0) {
-        return {
-          success: true,
-          data: result.insertId.toString(),
-          statusCode: 201,
-          message: "Successfully created new user",
-        };
-      } else {
-        throw "couldn't insert new user";
-      }
+      if (result.affectedRows === 0) throw "Failed to insert a new user.";
+      return {
+        success: true,
+        data: result.insertId.toString(),
+        statusCode: 201,
+        message: "Successfully created new user",
+      };
     } catch (error) {
       console.error(`ERROR! ${error}`);
       return {

@@ -10,7 +10,7 @@ export namespace QuizHandler {
       const query = "INSERT INTO quizAttempt (userId, totalScore) VALUES (?, ?)";
       const [result] = await connectionPool.query<ResultSetHeader>(query, [userId, attempt.totalScore]);
 
-      if (result.affectedRows === 0) throw "couldn't insert new attempt";
+      if (result.affectedRows === 0) throw "Failed to update any rows.";
 
       const newQuizAttemptId = result.insertId.toString();
       const res = await addAnswers(newQuizAttemptId, attempt);

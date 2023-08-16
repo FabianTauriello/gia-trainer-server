@@ -25,7 +25,7 @@ INSERT INTO user VALUES
     (1, 'fabian-dev@mail.com', 'password1', 'Fabian', 'T');
 
 -- @block
-DELETE FROM user WHERE id = "1";
+DELETE FROM user WHERE id = 1;
 
 -- @block
 DELETE FROM user WHERE first_name = "jack";
@@ -103,27 +103,35 @@ DROP FOREIGN KEY quizAttemptId;
 -- @block
 CREATE TABLE settings (
    id INT NOT NULL AUTO_INCREMENT,
-   quizAttemptId INT NOT NULL,
-   question JSON NOT NULL,
-   FOREIGN KEY (quizAttemptId) REFERENCES quizAttempt(id),
+   userId INT NOT NULL,
+   darkMode BOOLEAN NOT NULL,
+   exposeName BOOLEAN NOT NULL,
+   showQuizTimer BOOLEAN NOT NULL,
+   profileImgId VARCHAR(255) NOT NULL,
+   profileImgColour VARCHAR(255) NOT NULL,
+   FOREIGN KEY (userId) REFERENCES user(id),
    PRIMARY KEY (id)
 );
 
 -- @block
-SELECT * FROM answer;
+SELECT * FROM settings;
 
 -- @block
-TRUNCATE answer;
+SELECT * FROM settings WHERE userId = 2;
 
 -- @block
-INSERT INTO answer (quizAttemptId, question) VALUES (14, '"{a:1, b:2}"'), (14, '"{a:1, b:2}"');
+INSERT INTO settings VALUES 
+    (1, 2, true, false, false, '1', 'ED3636');
 
 -- @block
-DROP TABLE answer;
+TRUNCATE settings;
 
 -- @block
-ALTER TABLE answer
-DROP FOREIGN KEY quizAttemptId;
+DROP TABLE settings;
+
+-- @block
+ALTER TABLE settings
+DROP FOREIGN KEY userId;
 
 -- ------------------------------------- GENERAL QUERIES -------------------------------------
 
