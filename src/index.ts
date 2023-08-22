@@ -115,10 +115,9 @@ app.post("/updateUser", passport.authenticate("jwt", { session: false }), async 
   res.status(response.statusCode).send(response);
 });
 
-app.get("/getUserSettings", passport.authenticate("jwt", { session: false }), async (req, res) => {
+app.get("/getUserSettings/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("getting user settings");
-  const { userId } = req.body;
 
-  const response = await UserManagement.getUserSettings(userId);
+  const response = await UserManagement.getUserSettings(parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
 });

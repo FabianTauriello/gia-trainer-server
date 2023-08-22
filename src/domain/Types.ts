@@ -45,8 +45,8 @@ export type Settings = {
   darkMode: boolean;
   exposeName: boolean;
   showQuizTimer: boolean;
-  profileImageId: string;
-  profileImageColour: String;
+  profileImgId: string;
+  profileImgColour: String;
 };
 
 // Response codes:

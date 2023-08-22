@@ -124,6 +124,12 @@ INSERT INTO settings VALUES
     (1, 2, true, false, false, '1', 'ED3636');
 
 -- @block
+UPDATE settings
+SET darkMode = false
+WHERE userId = 2;
+
+
+-- @block
 TRUNCATE settings;
 
 -- @block

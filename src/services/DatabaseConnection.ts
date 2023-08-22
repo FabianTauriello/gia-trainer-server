@@ -6,5 +6,7 @@ export const connectionPool = mysql
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
+    // supportBigNumbers: true,
+    // bigNumberStrings: true,
   })
   .promise(); // enables promise api version so I can use async/await instead of callbacks

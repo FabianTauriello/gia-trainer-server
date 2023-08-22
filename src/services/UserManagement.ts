@@ -34,6 +34,9 @@ export namespace UserManagement {
       const userSettings = { ...rows[0] };
       delete userSettings.id;
       delete userSettings.userId;
+      userSettings.darkMode = userSettings.darkMode === 0 ? false : true;
+      userSettings.exposeName = userSettings.exposeName === 0 ? false : true;
+      userSettings.showQuizTimer = userSettings.showQuizTimer === 0 ? false : true;
       return {
         success: true,
         data: userSettings as Settings,
