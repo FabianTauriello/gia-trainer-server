@@ -30,7 +30,11 @@ export type User = {
   password: string;
   firstName: string;
   lastName: string;
+  profileImgId: string;
+  profileImgColor: string;
 };
+
+export type Profile = Omit<User, "id" | "email" | "password">;
 
 export type UserDataRow = User & RowDataPacket;
 
@@ -45,8 +49,6 @@ export type Settings = {
   darkMode: boolean;
   exposeName: boolean;
   showQuizTimer: boolean;
-  profileImgId: string;
-  profileImgColour: String;
 };
 
 // Response codes:

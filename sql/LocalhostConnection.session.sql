@@ -7,14 +7,13 @@ CREATE TABLE user (
    password VARCHAR(255) NOT NULL,
    firstName VARCHAR(255) NOT NULL,
    lastName VARCHAR(255) NOT NULL,
+   profileImgId VARCHAR(255) NOT NULL,
+   profileImgColor VARCHAR(255) NOT NULL,
    PRIMARY KEY (id)
 );
 
 -- @block
 SELECT * FROM user;
-
--- @block
-DROP TABLE user;
 
 -- @block
 -- This will reset the table i.e. all the auto incremental fields will be reset. Its a DDL and its very fast. 
@@ -32,8 +31,8 @@ DELETE FROM user WHERE first_name = "jack";
 
 -- @block
 UPDATE user
-SET password = 'password1'
-WHERE email = 'fabian';
+SET profileImgColour = '#ED3636'
+WHERE id = 2;
 
 -- @block
 ALTER TABLE user
@@ -41,7 +40,11 @@ ADD password VARCHAR(255) NOT NULL;
 
 -- @block
 ALTER TABLE user
-RENAME COLUMN last_name TO lastName;
+RENAME COLUMN profileImgColour TO profileImgColor;
+
+-- @block
+ALTER TABLE user
+ADD profileImgColour VARCHAR(255) NOT NULL;
 
 -- ------------------------------------- QUIZ ATTEMPT TABLE QUERIES -------------------------------------
 
@@ -64,12 +67,8 @@ TRUNCATE quizAttempt;
 SELECT * FROM quizAttempt;
 
 -- @block
-DROP TABLE quizAttempt;
-
--- @block
 ALTER TABLE quizAttempt
 DROP FOREIGN KEY userId;
-
 
 -- ------------------------------------- ANSWER TABLE QUERIES -------------------------------------
 
@@ -92,9 +91,6 @@ TRUNCATE answer;
 INSERT INTO answer (quizAttemptId, question) VALUES (14, '"{a:1, b:2}"'), (14, '"{a:1, b:2}"');
 
 -- @block
-DROP TABLE answer;
-
--- @block
 ALTER TABLE answer
 DROP FOREIGN KEY quizAttemptId;
 
@@ -107,8 +103,6 @@ CREATE TABLE settings (
    darkMode BOOLEAN NOT NULL,
    exposeName BOOLEAN NOT NULL,
    showQuizTimer BOOLEAN NOT NULL,
-   profileImgId VARCHAR(255) NOT NULL,
-   profileImgColour VARCHAR(255) NOT NULL,
    FOREIGN KEY (userId) REFERENCES user(id),
    PRIMARY KEY (id)
 );
@@ -125,19 +119,19 @@ INSERT INTO settings VALUES
 
 -- @block
 UPDATE settings
-SET darkMode = false
+SET profileImgColour = '#ED3636'
 WHERE userId = 2;
-
 
 -- @block
 TRUNCATE settings;
 
 -- @block
-DROP TABLE settings;
+ALTER TABLE settings
+DROP FOREIGN KEY userId;
 
 -- @block
 ALTER TABLE settings
-DROP FOREIGN KEY userId;
+DROP COLUMN profileImgColour;
 
 -- ------------------------------------- GENERAL QUERIES -------------------------------------
 
@@ -155,4 +149,16 @@ SHOW DATABASES;
 
 -- @block
 SHOW TABLES;
+
+-- @block
+DROP TABLE settings;
+
+-- @block
+DROP TABLE answer;
+
+-- @block
+DROP TABLE quizAttempt;
+
+-- @block
+DROP TABLE user;
 

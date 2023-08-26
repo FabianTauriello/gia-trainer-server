@@ -107,11 +107,11 @@ app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), as
   res.status(response.statusCode).send(response);
 });
 
-app.post("/updateUser", passport.authenticate("jwt", { session: false }), async (req, res) => {
+app.post("/updateUser/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("updating user");
 
-  const newUser = req.body;
-  const response = await UserManagement.updateUser(newUser);
+  const newProfile = req.body;
+  const response = await UserManagement.updateUser(newProfile, parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
 });
 
@@ -120,4 +120,11 @@ app.get("/getUserSettings/:userId", passport.authenticate("jwt", { session: fals
 
   const response = await UserManagement.getUserSettings(parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
+});
+
+app.get("/updateUserSettings/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  console.log("updating user settings");
+
+  // const response = await UserManagement.getUserSettings(parseInt(req.params.userId));
+  // res.status(response.statusCode).send(response);
 });

@@ -25,7 +25,9 @@ export namespace Utils {
         typeof obj.email === "string" &&
         typeof obj.password === "string" &&
         typeof obj.firstName === "string" &&
-        typeof obj.lastName === "string"
+        typeof obj.lastName === "string" &&
+        typeof obj.profileImgId === "string" &&
+        typeof obj.profileImgColour === "string"
       );
     }
     return false;

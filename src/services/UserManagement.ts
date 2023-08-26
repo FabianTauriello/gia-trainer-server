@@ -3,13 +3,15 @@ import { ApiResponse, Settings, User } from "../domain/Types";
 import { connectionPool } from "./DatabaseConnection";
 
 export namespace UserManagement {
-  export async function updateUser(updatedUser: User): Promise<ApiResponse<string>> {
+  export async function updateUser(newProfile: User, userId: number): Promise<ApiResponse<string>> {
     try {
-      const query = "UPDATE user SET firstName = ?, lastName = ? WHERE id = ?";
+      const query = "UPDATE user SET firstName = ?, lastName = ?, profileImgId = ?, profileImgColor = ? WHERE id = ?";
       const [result] = await connectionPool.query<ResultSetHeader>(query, [
-        updatedUser.firstName,
-        updatedUser.lastName,
-        updatedUser.id,
+        newProfile.firstName,
+        newProfile.lastName,
+        newProfile.profileImgId,
+        newProfile.profileImgColor,
+        userId,
       ]);
       if (result.affectedRows === 0) throw "Failed to update any rows.";
       return {
