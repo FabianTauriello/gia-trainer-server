@@ -18,7 +18,7 @@ mysql
 
 ### DB Design
 
-![schema 2](assets/db-schema.png "Title")
+![schema 2](assets/db-schema.png "DB Schema")
 
 ### Stack
 
