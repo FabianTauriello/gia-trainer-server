@@ -27,7 +27,7 @@ export namespace Utils {
         typeof obj.firstName === "string" &&
         typeof obj.lastName === "string" &&
         typeof obj.profileImgId === "string" &&
-        typeof obj.profileImgColour === "string"
+        typeof obj.profileImgColor === "string"
       );
     }
     return false;

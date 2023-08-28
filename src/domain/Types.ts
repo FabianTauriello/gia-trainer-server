@@ -1,9 +1,10 @@
 import { RowDataPacket } from "mysql2";
 
 export type QuizAttempt = {
-  id: string;
+  id: number;
   questions: Question[];
   totalScore: number;
+  timestamp: string;
 };
 
 export type Question = {
@@ -25,7 +26,7 @@ type Letter = {
 };
 
 export type User = {
-  id: string;
+  id: number;
   email: string;
   password: string;
   firstName: string;

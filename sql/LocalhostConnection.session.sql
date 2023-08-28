@@ -31,7 +31,7 @@ DELETE FROM user WHERE first_name = "jack";
 
 -- @block
 UPDATE user
-SET profileImgColour = '#ED3636'
+SET profileImgColor = '#ED3636'
 WHERE id = 2;
 
 -- @block
@@ -40,11 +40,11 @@ ADD password VARCHAR(255) NOT NULL;
 
 -- @block
 ALTER TABLE user
-RENAME COLUMN profileImgColour TO profileImgColor;
+RENAME COLUMN profileImgColor TO profileImgColor;
 
 -- @block
 ALTER TABLE user
-ADD profileImgColour VARCHAR(255) NOT NULL;
+ADD profileImgColor VARCHAR(255) NOT NULL;
 
 -- ------------------------------------- QUIZ ATTEMPT TABLE QUERIES -------------------------------------
 
@@ -53,6 +53,7 @@ CREATE TABLE quizAttempt (
    id INT NOT NULL AUTO_INCREMENT,
    userId INT NOT NULL,
    totalScore VARCHAR(25) NOT NULL,
+   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY (userId) REFERENCES user(id),
    PRIMARY KEY (id)
 );
@@ -70,29 +71,40 @@ SELECT * FROM quizAttempt;
 ALTER TABLE quizAttempt
 DROP FOREIGN KEY userId;
 
--- ------------------------------------- ANSWER TABLE QUERIES -------------------------------------
+-- @block
+ALTER TABLE quizAttempt
+ADD COLUMN timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+-- ------------------------------------- QUESTION TABLE QUERIES -------------------------------------
 
 -- @block
-CREATE TABLE answer (
+CREATE TABLE question (
    id INT NOT NULL AUTO_INCREMENT,
    quizAttemptId INT NOT NULL,
-   question JSON NOT NULL,
+   data JSON NOT NULL,
    FOREIGN KEY (quizAttemptId) REFERENCES quizAttempt(id),
    PRIMARY KEY (id)
 );
 
 -- @block
-SELECT * FROM answer;
+SELECT * FROM question;
 
 -- @block
-TRUNCATE answer;
+TRUNCATE question;
 
 -- @block
-INSERT INTO answer (quizAttemptId, question) VALUES (14, '"{a:1, b:2}"'), (14, '"{a:1, b:2}"');
+INSERT INTO question (quizAttemptId, data) VALUES (14, '"{a:1, b:2}"'), (14, '"{a:1, b:2}"');
 
 -- @block
-ALTER TABLE answer
+ALTER TABLE question
 DROP FOREIGN KEY quizAttemptId;
+
+-- @block
+ALTER TABLE question
+RENAME COLUMN question TO data;
+
+-- @block
+RENAME TABLE answer TO question;
 
 -- ------------------------------------- SETTINGS TABLE QUERIES -------------------------------------
 
@@ -119,7 +131,7 @@ INSERT INTO settings VALUES
 
 -- @block
 UPDATE settings
-SET profileImgColour = '#ED3636'
+SET profileImgColor = '#ED3636'
 WHERE userId = 2;
 
 -- @block
@@ -131,7 +143,7 @@ DROP FOREIGN KEY userId;
 
 -- @block
 ALTER TABLE settings
-DROP COLUMN profileImgColour;
+DROP COLUMN profileImgColor;
 
 -- ------------------------------------- GENERAL QUERIES -------------------------------------
 
@@ -154,7 +166,7 @@ SHOW TABLES;
 DROP TABLE settings;
 
 -- @block
-DROP TABLE answer;
+DROP TABLE question;
 
 -- @block
 DROP TABLE quizAttempt;

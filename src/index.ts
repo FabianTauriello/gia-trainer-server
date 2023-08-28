@@ -99,11 +99,19 @@ app.get("/quizQuestions", (req, res) => {
 
 // ------------------------------------- PROTECTED ROUTES -------------------------------------
 
+// TODO change this to accept id in route
 app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("adding quiz attempt");
 
   const { userId, attempt } = req.body;
   const response = await QuizHandler.addAttempt(userId, attempt);
+  res.status(response.statusCode).send(response);
+});
+
+app.get("/getQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  console.log("getting quiz attempts for a user");
+
+  const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
 });
 
@@ -122,9 +130,10 @@ app.get("/getUserSettings/:userId", passport.authenticate("jwt", { session: fals
   res.status(response.statusCode).send(response);
 });
 
-app.get("/updateUserSettings/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
+// TODO
+app.post("/updateUserSettings/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("updating user settings");
 
-  // const response = await UserManagement.getUserSettings(parseInt(req.params.userId));
+  // const response = await UserManagement.getUserSettings(req.params.userId);
   // res.status(response.statusCode).send(response);
 });

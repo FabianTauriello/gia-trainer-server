@@ -8,5 +8,7 @@ export const connectionPool = mysql
     database: process.env.MYSQL_DATABASE,
     // supportBigNumbers: true,
     // bigNumberStrings: true,
+    // dateStrings:[]
+    // timezone: "utc",
   })
   .promise(); // enables promise api version so I can use async/await instead of callbacks

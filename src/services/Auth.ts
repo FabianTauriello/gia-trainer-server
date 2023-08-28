@@ -85,7 +85,7 @@ export namespace Auth {
       // hash password and insert new user. OWASP reccomends at least 10 for rounds - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
       const hashedPassword = await bcrypt.hash(newUser.password, 10);
       const sql =
-        "INSERT INTO user (email, password, firstName, lastName, profileImgId, profileImgColour) VALUES (?, ?, ?, ?, ?, ?)";
+        "INSERT INTO user (email, password, firstName, lastName, profileImgId, profileImgColor) VALUES (?, ?, ?, ?, ?, ?)";
       const [result] = await connectionPool.query<ResultSetHeader>(sql, [
         newUser.email,
         hashedPassword,
