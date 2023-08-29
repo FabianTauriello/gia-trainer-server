@@ -10,5 +10,6 @@ export const connectionPool = mysql
     // bigNumberStrings: true,
     // dateStrings:[]
     // timezone: "utc",
+    // multipleStatements: true,
   })
   .promise(); // enables promise api version so I can use async/await instead of callbacks

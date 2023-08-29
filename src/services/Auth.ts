@@ -11,7 +11,7 @@ export namespace Auth {
     credentials: unknown
   ): Promise<ApiResponse<{ user: SanitizedUser; token: string }>> {
     try {
-      // verify email and password were passed in correctly first
+      // Verify email and password were passed in correctly first
       if (!Utils.isLoginCredentials(credentials)) {
         return {
           success: false,
@@ -19,7 +19,7 @@ export namespace Auth {
           message: "Failed to sign in: credentials not passed in correctly",
         };
       }
-      // check if user exists and password is valid
+      // Check if user exists and password is valid
       const usersFound = await selectUser("email", credentials.email);
       if (!usersFound.success) throw "unable to retrieve user"; // TODO throw nothing
       if (!usersFound.data?.length) {
@@ -32,9 +32,9 @@ export namespace Auth {
       const user = usersFound.data[0];
       const match = await bcrypt.compare(credentials.password, user.password);
       if (match) {
-        // valid user, generate JWT token
+        // Valid user, generate JWT token
         const token = jwt.sign({ email: credentials.email }, process.env.JWT_SECRET_KEY!, { expiresIn: "60d" }); // TODO test expiration time
-        // remove email and password before returning user
+        // Remove email and password before returning user
         const { password, ...userWithoutPassword } = user;
         return {
           success: true,
@@ -64,7 +64,7 @@ export namespace Auth {
 
   export async function createUser(newUser: unknown): Promise<ApiResponse<string>> {
     try {
-      // verify user object is valid
+      // Verify user object is valid
       if (!Utils.isNewUser(newUser)) {
         return {
           success: false,
@@ -72,7 +72,7 @@ export namespace Auth {
           message: "Failed to sign up: user object not passed in correctly",
         };
       }
-      // check if user exists before inserting a new one
+      // Check if user exists before inserting a new one
       const usersFound = await selectUser("email", newUser.email);
       if (!usersFound.success) throw "unable to verify if user already exists";
       if (usersFound.data?.length) {
@@ -82,7 +82,7 @@ export namespace Auth {
           message: "Failed to sign up: email already in use",
         };
       }
-      // hash password and insert new user. OWASP reccomends at least 10 for rounds - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
+      // Hash password and insert new user. OWASP reccomends at least 10 for rounds - https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
       const hashedPassword = await bcrypt.hash(newUser.password, 10);
       const sql =
         "INSERT INTO user (email, password, firstName, lastName, profileImgId, profileImgColor) VALUES (?, ?, ?, ?, ?, ?)";
@@ -94,7 +94,9 @@ export namespace Auth {
         newUser.profileImgId,
         newUser.profileImgColor,
       ]);
+
       if (result.affectedRows === 0) throw "Failed to insert a new user.";
+
       return {
         success: true,
         data: result.insertId.toString(),
@@ -118,6 +120,7 @@ export namespace Auth {
     try {
       const sql = `SELECT * FROM user WHERE ${key} = ?`;
       const [result] = await connectionPool.query<UserDataRow[]>(sql, [value]);
+
       return {
         success: true,
         data: result,

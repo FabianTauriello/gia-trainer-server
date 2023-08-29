@@ -2,6 +2,7 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { ApiResponse, Question, QuizAttempt } from "../domain/Types";
 import { connectionPool } from "./DatabaseConnection";
 
+// TODO use this or just use type from types.ts??
 interface QuizAttemptRecord extends RowDataPacket {
   id: number;
   userId: number;
@@ -9,6 +10,7 @@ interface QuizAttemptRecord extends RowDataPacket {
   timestamp: string;
 }
 
+// TODO use this or just use type from types.ts??
 interface QuestionRecord extends RowDataPacket {
   id: number;
   quizAttemptId: number;
@@ -20,8 +22,8 @@ export namespace QuizHandler {
   // Returns the id of the new quiz attempt
   export async function addAttempt(userId: number, attempt: QuizAttempt): Promise<ApiResponse<number>> {
     try {
-      const query = "INSERT INTO quizAttempt (userId, totalScore) VALUES (?, ?)";
-      const [result] = await connectionPool.query<ResultSetHeader>(query, [userId, attempt.totalScore]);
+      const sql = "INSERT INTO quizAttempt (userId, totalScore) VALUES (?, ?)";
+      const [result] = await connectionPool.query<ResultSetHeader>(sql, [userId, attempt.totalScore]);
 
       if (result.affectedRows === 0) throw "Failed to update any rows.";
 
@@ -50,8 +52,8 @@ export namespace QuizHandler {
   export async function addQuestions(quizAttemptId: number, attempt: QuizAttempt): Promise<ApiResponse<number>> {
     const rows = attempt.questions.map(item => [quizAttemptId, JSON.stringify(item)]);
 
-    const query = "INSERT INTO question (quizAttemptId, data) VALUES ?";
-    const [result] = await connectionPool.query<ResultSetHeader>(query, [rows]);
+    const sql = "INSERT INTO question (quizAttemptId, data) VALUES ?";
+    const [result] = await connectionPool.query<ResultSetHeader>(sql, [rows]);
 
     if (result.affectedRows > 0) {
       return {
@@ -70,8 +72,8 @@ export namespace QuizHandler {
 
   export async function getQuizAttempts(userId: number): Promise<ApiResponse<QuizAttempt[]>> {
     try {
-      const query = "SELECT * FROM quizAttempt WHERE userId = ?";
-      const [rows] = await connectionPool.query<QuizAttemptRecord[]>(query, userId);
+      const sql = "SELECT * FROM quizAttempt WHERE userId = ?";
+      const [rows] = await connectionPool.query<QuizAttemptRecord[]>(sql, userId);
       if (rows.length === 0) throw "Failed to retrieve any rows.";
       const attempts: QuizAttempt[] = [];
       for (let row of rows) {
@@ -99,8 +101,8 @@ export namespace QuizHandler {
   }
 
   async function getQuestionsForQuizAttempt(quizId: number): Promise<Question[]> {
-    const query = "SELECT * FROM question WHERE quizAttemptId = ?";
-    const [rows] = await connectionPool.query<QuestionRecord[]>(query, quizId);
+    const sql = "SELECT * FROM question WHERE quizAttemptId = ?";
+    const [rows] = await connectionPool.query<QuestionRecord[]>(sql, quizId);
     if (rows.length === 0) throw "Failed to get questions.";
     const result = rows.map(row => row.data);
     return result;

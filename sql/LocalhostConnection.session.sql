@@ -110,13 +110,13 @@ RENAME TABLE answer TO question;
 
 -- @block
 CREATE TABLE settings (
-   id INT NOT NULL AUTO_INCREMENT,
    userId INT NOT NULL,
    darkMode BOOLEAN NOT NULL,
    exposeName BOOLEAN NOT NULL,
    showQuizTimer BOOLEAN NOT NULL,
    FOREIGN KEY (userId) REFERENCES user(id),
-   PRIMARY KEY (id)
+   PRIMARY KEY (userId),
+   UNIQUE KEY (userId)
 );
 
 -- @block
@@ -144,6 +144,12 @@ DROP FOREIGN KEY userId;
 -- @block
 ALTER TABLE settings
 DROP COLUMN profileImgColor;
+
+-- @block
+INSERT INTO settings (userId, darkMode, exposeName, showQuizTimer) VALUES(1, 1, 1, 1);
+
+-- @block
+UPDATE settings SET darkMode = 0, exposeName = 0, showQuizTimer = 1 WHERE userId = 1;
 
 -- ------------------------------------- GENERAL QUERIES -------------------------------------
 

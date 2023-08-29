@@ -59,13 +59,13 @@ passport.use(
 // ------------------------------------- PUBLIC ROUTES -------------------------------------
 
 app.get("/", (req, res) => {
-  console.log("saying hello");
+  console.log("saying hello...");
 
   res.send("Hello World!!");
 });
 
 app.post("/signIn", async (req, res) => {
-  console.log("signing in");
+  console.log("signing in...");
 
   const credentials = req.body;
   const response = await Auth.authenticateUser(credentials);
@@ -73,7 +73,7 @@ app.post("/signIn", async (req, res) => {
 });
 
 app.post("/signUp", async (req, res) => {
-  console.log("signing up");
+  console.log("signing up...");
 
   const newUser = req.body;
   const response = await Auth.createUser(newUser);
@@ -81,7 +81,7 @@ app.post("/signUp", async (req, res) => {
 });
 
 app.get("/quizQuestions", (req, res) => {
-  console.log("getting quiz questions");
+  console.log("getting quiz questions...");
 
   // TODO kinda ugly and missing trycatch
   const numberedQuestions: Question[] = questionData.map((q: any, i: any) => ({ ...q, number: i }));
@@ -101,7 +101,7 @@ app.get("/quizQuestions", (req, res) => {
 
 // TODO change this to accept id in route
 app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), async (req, res) => {
-  console.log("adding quiz attempt");
+  console.log("adding quiz attempt...");
 
   const { userId, attempt } = req.body;
   const response = await QuizHandler.addAttempt(userId, attempt);
@@ -109,31 +109,31 @@ app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), as
 });
 
 app.get("/getQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
-  console.log("getting quiz attempts for a user");
+  console.log("getting quiz attempts for a user...");
 
   const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
 });
 
 app.post("/updateUser/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
-  console.log("updating user");
+  console.log("updating user...");
 
   const newProfile = req.body;
-  const response = await UserManagement.updateUser(newProfile, parseInt(req.params.userId));
+  const response = await UserManagement.updateUser(parseInt(req.params.userId), newProfile);
   res.status(response.statusCode).send(response);
 });
 
 app.get("/getUserSettings/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
-  console.log("getting user settings");
+  console.log("getting user settings...");
 
   const response = await UserManagement.getUserSettings(parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
 });
 
-// TODO
 app.post("/updateUserSettings/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
-  console.log("updating user settings");
+  console.log("updating user settings...");
 
-  // const response = await UserManagement.getUserSettings(req.params.userId);
-  // res.status(response.statusCode).send(response);
+  const newSettings = req.body;
+  const response = await UserManagement.updateUserSettings(parseInt(req.params.userId), newSettings);
+  res.status(response.statusCode).send(response);
 });
