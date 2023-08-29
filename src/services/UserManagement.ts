@@ -86,11 +86,25 @@ export namespace UserManagement {
       if (rows.length === 0) {
         // Insert a new record
         const sql = "INSERT INTO settings (userId, darkMode, exposeName, showQuizTimer) VALUES(?, ?, ?, ?)";
-        const [insertResult] = await connectionPool.query<ResultSetHeader>(sql, [userId, 0, 1, 0]);
+        const [result] = await connectionPool.query<ResultSetHeader>(sql, [
+          userId,
+          newSettings.darkMode,
+          newSettings.exposeName,
+          newSettings.showQuizTimer,
+        ]);
+
+        if (result.affectedRows === 0) throw "Failed to update any rows.";
       } else {
         // Update existing record
         const sql = "UPDATE settings SET darkMode = ?, exposeName = ?, showQuizTimer = ? WHERE userId = ?";
-        const [result] = await connectionPool.query<ResultSetHeader>(sql, [1, 1, 1, 1]);
+        const [result] = await connectionPool.query<ResultSetHeader>(sql, [
+          newSettings.darkMode,
+          newSettings.exposeName,
+          newSettings.showQuizTimer,
+          userId,
+        ]);
+
+        if (result.affectedRows === 0) throw "Failed to update any rows.";
       }
 
       return {
