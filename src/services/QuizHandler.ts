@@ -70,7 +70,7 @@ export namespace QuizHandler {
     }
   }
 
-  export async function getQuizAttempts(userId: number): Promise<ApiResponse<QuizAttempt[]>> {
+  export async function getAllQuizAttempts(userId: number): Promise<ApiResponse<QuizAttempt[]>> {
     try {
       const sql = "SELECT * FROM quizAttempt WHERE userId = ?";
       const [rows] = await connectionPool.query<QuizAttemptRecord[]>(sql, userId);
