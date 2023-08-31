@@ -118,8 +118,11 @@ app.get("/getAllQuizAttempts/:userId", passport.authenticate("jwt", { session: f
 app.get("/getQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("getting quiz attempts for a user...");
 
-  const { page, limit } = req.body;
-  const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId), page, limit);
+  // Retrieve query params
+  const page = req.query.page as string;
+  const limit = req.query.limit as string;
+
+  const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId), parseInt(page), parseInt(limit));
   res.status(response.statusCode).send(response);
 });
 
