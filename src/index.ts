@@ -109,9 +109,17 @@ app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), as
 });
 
 app.get("/getAllQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
-  console.log("getting quiz attempts for a user...");
+  console.log("getting all quiz attempts for a user...");
 
   const response = await QuizHandler.getAllQuizAttempts(parseInt(req.params.userId));
+  res.status(response.statusCode).send(response);
+});
+
+app.get("/getQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
+  console.log("getting quiz attempts for a user...");
+
+  const { page, limit } = req.body;
+  const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId), page, limit);
   res.status(response.statusCode).send(response);
 });
 

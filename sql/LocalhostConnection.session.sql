@@ -72,6 +72,9 @@ ALTER TABLE quizAttempt
 DROP FOREIGN KEY userId;
 
 -- @block
+SELECT COUNT(*) AS count FROM quizAttempt WHERE userId = 1;
+
+-- @block
 ALTER TABLE quizAttempt
 ADD COLUMN timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 

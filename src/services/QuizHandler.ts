@@ -74,7 +74,6 @@ export namespace QuizHandler {
     try {
       const sql = "SELECT * FROM quizAttempt WHERE userId = ?";
       const [rows] = await connectionPool.query<QuizAttemptRecord[]>(sql, userId);
-      if (rows.length === 0) throw "Failed to retrieve any rows.";
       const attempts: QuizAttempt[] = [];
       for (let row of rows) {
         const questions = await getQuestionsForQuizAttempt(row.id);
@@ -88,6 +87,60 @@ export namespace QuizHandler {
       return {
         success: true,
         data: attempts,
+        statusCode: 200,
+        message: "Successfully retrieved all of a user's quiz attempts",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        statusCode: 500,
+        message: `Failed to get all quiz attempts. ${error}`,
+      };
+    }
+  }
+
+  export async function getQuizAttempts(
+    userId: number,
+    page: number,
+    limit: number
+  ): Promise<
+    ApiResponse<{
+      attempts: QuizAttempt[];
+      totalPages: number;
+    }>
+  > {
+    try {
+      const offset = (page - 1) * limit;
+
+      // Get paginated attempts for a user
+      const paginationSql = "SELECT * FROM quizAttempt WHERE userId = ? LIMIT ?, ?";
+      const [quizAttemptsRecords] = await connectionPool.query<QuizAttemptRecord[]>(paginationSql, [
+        userId,
+        offset,
+        limit,
+      ]);
+
+      // Get total attempts count for a user
+      const countSql = "SELECT COUNT(*) AS count FROM quizAttempt WHERE userId = ?";
+      const [allAttempts] = await connectionPool.query<RowDataPacket[]>(countSql, [userId]);
+
+      const attempts: QuizAttempt[] = [];
+      for (let rec of quizAttemptsRecords) {
+        const questions = await getQuestionsForQuizAttempt(rec.id);
+        attempts.push({
+          id: rec.id,
+          questions: questions,
+          totalScore: rec.totalScore,
+          timestamp: rec.timestamp,
+        });
+      }
+
+      return {
+        success: true,
+        data: {
+          attempts: attempts,
+          totalPages: Math.ceil(allAttempts[0].count / limit),
+        },
         statusCode: 200,
         message: "Successfully retrieved user's quiz attempts",
       };
