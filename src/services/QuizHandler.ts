@@ -70,7 +70,7 @@ export namespace QuizHandler {
     }
   }
 
-  export async function getAllQuizAttempts(userId: number): Promise<ApiResponse<QuizAttempt[]>> {
+  export async function getQuizAttempts(userId: number): Promise<ApiResponse<QuizAttempt[]>> {
     try {
       const sql = "SELECT * FROM quizAttempt WHERE userId = ?";
       const [rows] = await connectionPool.query<QuizAttemptRecord[]>(sql, userId);
@@ -88,18 +88,18 @@ export namespace QuizHandler {
         success: true,
         data: attempts,
         statusCode: 200,
-        message: "Successfully retrieved all of a user's quiz attempts",
+        message: "Successfully retrieved user's quiz attempts",
       };
     } catch (error) {
       return {
         success: false,
         statusCode: 500,
-        message: `Failed to get all quiz attempts. ${error}`,
+        message: `Failed to get quiz attempts. ${error}`,
       };
     }
   }
 
-  export async function getQuizAttempts(
+  export async function getAllQuizAttempts(
     userId: number,
     page: number,
     limit: number
@@ -142,13 +142,13 @@ export namespace QuizHandler {
           totalPages: Math.ceil(allAttempts[0].count / limit),
         },
         statusCode: 200,
-        message: "Successfully retrieved user's quiz attempts",
+        message: "Successfully retrieved all of a user's quiz attempts",
       };
     } catch (error) {
       return {
         success: false,
         statusCode: 500,
-        message: `Failed to get quiz attempts. ${error}`,
+        message: `Failed to get all quiz attempts. ${error}`,
       };
     }
   }
