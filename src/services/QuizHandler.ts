@@ -107,6 +107,7 @@ export namespace QuizHandler {
     ApiResponse<{
       attempts: QuizAttempt[];
       totalPages: number;
+      totalAttemptsCount: number;
     }>
   > {
     try {
@@ -140,6 +141,7 @@ export namespace QuizHandler {
         data: {
           attempts: attempts,
           totalPages: Math.ceil(allAttempts[0].count / limit),
+          totalAttemptsCount: allAttempts[0].count,
         },
         statusCode: 200,
         message: "Successfully retrieved user's quiz attempts",
