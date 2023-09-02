@@ -108,21 +108,21 @@ app.post("/addQuizAttempt", passport.authenticate("jwt", { session: false }), as
   res.status(response.statusCode).send(response);
 });
 
-app.get("/getQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
+app.get("/getAllQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("getting quiz attempts for a user...");
 
-  const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId));
+  const response = await QuizHandler.getAllQuizAttempts(parseInt(req.params.userId));
   res.status(response.statusCode).send(response);
 });
 
-app.get("/getAllQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
+app.get("/getQuizAttempts/:userId", passport.authenticate("jwt", { session: false }), async (req, res) => {
   console.log("getting all quiz attempts for a user...");
 
   // Retrieve query params
   const page = req.query.page as string;
   const limit = req.query.limit as string;
 
-  const response = await QuizHandler.getAllQuizAttempts(parseInt(req.params.userId), parseInt(page), parseInt(limit));
+  const response = await QuizHandler.getQuizAttempts(parseInt(req.params.userId), parseInt(page), parseInt(limit));
   res.status(response.statusCode).send(response);
 });
 
