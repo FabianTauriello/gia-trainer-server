@@ -36,6 +36,10 @@ mysql
 
 gia-trainer.com
 
+### Notes:
+
+- Changes to this repo must be pulled from the server. See the commands below for guidance.
+
 ### Important commands:
 
 Connect to ec2 instance:
